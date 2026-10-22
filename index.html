@@ -52,12 +52,17 @@
         .scale-presets { display: flex; gap: 6px; margin-top: 10px; }
         .scale-presets button { flex: 1; padding: 5px 0; border: 1px solid var(--line); border-radius: 7px; color: #52627a; background: white; font-size: 12px; }
         .scale-presets button[aria-pressed="true"] { color: var(--blue); background: #edf3ff; border-color: #b8ceff; }
-        .best-compression { display: block; width: 100%; margin-top: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; text-align: left; background: white; color: var(--ink); }
-        .best-compression strong { font-size: 13px; }
-        .best-compression small { display: block; margin-top: 2px; font-size: 11px; color: var(--muted); }
-        .best-compression span { float: right; font-size: 10px; color: var(--green); }
-        .best-compression[aria-pressed="true"] { background: #edf3ff; border-color: #9bbcff; }
-        .best-compression[aria-pressed="true"] strong { color: var(--blue); }
+        .compression-levels { margin-top: 16px; }
+        .compression-levels legend { padding: 0; margin-bottom: 8px; font-size: 12px; font-weight: 600; }
+        .compression-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+        .compression-option { position: relative; cursor: pointer; }
+        .compression-option input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+        .compression-choice { display: block; height: 100%; border: 1px solid var(--line); border-radius: 9px; padding: 10px; background: white; }
+        .compression-choice strong { display: block; font-size: 13px; }
+        .compression-choice small { display: block; margin-top: 3px; font-size: 10px; color: var(--muted); }
+        .compression-option input:checked + .compression-choice { background: #edf3ff; border-color: #9bbcff; color: var(--blue); }
+        .compression-option input:focus-visible + .compression-choice { outline: 3px solid #93b4ff; outline-offset: 2px; }
+        .compression-option input:disabled + .compression-choice { opacity: .5; cursor: not-allowed; }
         .advanced { margin-top: 14px; padding-top: 12px; border-top: 1px solid #edf0f5; }
         .advanced summary { font-size: 12px; color: var(--muted); cursor: pointer; }
         input[type="color"] { width: 42px; height: 30px; border: 1px solid var(--line); border-radius: 6px; padding: 2px; background: white; }
@@ -97,7 +102,7 @@
         .preview { position: relative; width: 100%; padding: 0; height: 128px; display: flex; align-items: center; justify-content: center; border-radius: 8px; overflow: hidden; background: repeating-conic-gradient(#f1f3f7 0% 25%, #fff 0% 50%) 50% / 16px 16px; border: 1px solid #eef1f6; }
         .preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .preview:not(:disabled) { cursor: zoom-in; }
-        .preview:not(:disabled)::after { content: '放大查看'; position: absolute; right: 5px; bottom: 5px; border-radius: 5px; padding: 2px 6px; color: white; background: #18283eb8; font-size: 10px; pointer-events: none; }
+        .preview:not(:disabled)::after { content: attr(data-preview-label); position: absolute; right: 5px; bottom: 5px; border-radius: 5px; padding: 2px 6px; color: white; background: #18283eb8; font-size: 10px; pointer-events: none; }
         .preview:disabled { opacity: 1; cursor: default; }
         .preview.waiting { color: #9aa6b7; font-size: 11px; background: #f5f7fb; }
         figcaption { font-size: 11px; color: var(--muted); padding: 7px 0 1px; }
@@ -110,7 +115,7 @@
         .download { background: #eff4ff; border: 0; color: var(--blue); border-radius: 7px; padding: 5px 10px; white-space: nowrap; font-size: 11px; }
         .note { padding: 0 14px 12px; margin: 0; font-size: 11px; color: #ab650a; }
         body.viewer-open { overflow: hidden; }
-        .image-viewer { width: min(1100px, calc(100vw - 40px)); height: min(800px, calc(100dvh - 64px)); max-width: none; max-height: none; padding: 0; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: white; box-shadow: 0 24px 80px #0f172a40; overflow: hidden; }
+        .image-viewer { width: min(1400px, calc(100vw - 40px)); height: min(900px, calc(100dvh - 64px)); max-width: none; max-height: none; padding: 0; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: white; box-shadow: 0 24px 80px #0f172a40; overflow: hidden; }
         .image-viewer::backdrop { background: #122034b8; }
         .image-viewer[open] { display: flex; flex-direction: column; }
         .viewer-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 15px 20px; border-bottom: 1px solid var(--line); flex-shrink: 0; }
@@ -123,14 +128,20 @@
         .viewer-toolbar .btn { padding: 6px 12px; font-size: 12px; }
         .viewer-toolbar output { min-width: 58px; text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; }
         .viewer-toolbar [aria-pressed="true"] { border-color: #b8ceff; background: #edf3ff; color: var(--blue); }
-        .viewer-stage { position: relative; flex: 1; min-height: 0; margin: 0 12px; overflow: hidden; background: repeating-conic-gradient(#e7ebf0 0% 25%, #f8fafc 0% 50%) 50% / 24px 24px; border: 1px solid var(--line); border-radius: 10px; touch-action: none; user-select: none; }
+        .viewer-comparison { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 0 12px; }
+        .viewer-pane { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+        .viewer-pane-heading { min-height: 56px; padding: 0 4px 8px; }
+        .viewer-pane-heading h3 { margin: 0 0 3px; font-size: 13px; }
+        .viewer-pane-heading p { margin: 0; font-size: 11px; color: var(--muted); overflow-wrap: anywhere; }
+        .viewer-stage { position: relative; flex: 1; min-height: 0; overflow: hidden; background: repeating-conic-gradient(#e7ebf0 0% 25%, #f8fafc 0% 50%) 50% / 24px 24px; border: 1px solid var(--line); border-radius: 10px; touch-action: none; user-select: none; }
         .viewer-stage.can-pan { cursor: grab; }
         .viewer-stage.is-dragging { cursor: grabbing; }
-        .viewer-stage img { position: absolute; top: 0; left: 0; max-width: none; max-height: none; transform-origin: 0 0; pointer-events: none; }
-        .viewer-message { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--muted); background: #f5f7fb; font-size: 12px; }
+        .viewer-frame { position: absolute; top: 0; left: 0; overflow: hidden; transform-origin: 0 0; pointer-events: none; }
+        .viewer-frame img { position: absolute; max-width: none; max-height: none; }
+        .viewer-message { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; margin: 0; color: var(--muted); background: #f5f7fb; font-size: 12px; text-align: center; }
         .viewer-help { margin: 0; padding: 10px 12px; text-align: center; color: var(--muted); font-size: 11px; flex-shrink: 0; }
         footer { text-align: center; font-size: 11px; color: #8a96a7; margin-top: 28px; }
-        @media (max-width: 680px) { .image-viewer { width: calc(100vw - 16px); height: calc(100dvh - 32px); border-radius: 12px; } .viewer-header { padding: 12px; } .viewer-stage { margin: 0 8px; } .viewer-toolbar { gap: 6px; } }
+        @media (max-width: 680px) { .image-viewer { width: calc(100vw - 16px); height: calc(100dvh - 32px); border-radius: 12px; } .viewer-header { padding: 12px; } .viewer-comparison { grid-template-columns: 1fr; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 0 8px; } .viewer-pane-heading { min-height: 48px; padding-bottom: 5px; } .viewer-toolbar { gap: 6px; } }
         @media (min-width: 1400px) { .image-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
         @media (max-width: 950px) { .app { padding: 20px; } .workspace { grid-template-columns: 280px minmax(0, 1fr); gap: 16px; } .setting-section { padding: 17px; } .image-grid { grid-template-columns: 1fr; } .stat { padding: 0 10px; } .stat strong { font-size: 17px; } }
         @media (max-width: 680px) { .app { padding: 16px; } .workspace { grid-template-columns: 1fr; } .header { align-items: flex-start; gap: 8px; } .brand-mark { display: none; } h1 { font-size: 23px; } .subtitle { font-size: 12px; } .local-tag { font-size: 10px; padding: 5px 8px; } .settings-head { padding: 13px 17px; } .setting-section { padding: 14px 17px; } .image-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); } .stat { padding: 0 8px; } .stat strong { font-size: 16px; } .toolbar-actions { width: 100%; } .btn { padding: 9px 12px; font-size: 12px; } }
@@ -174,14 +185,16 @@
                         <select id="outputFormat"><option value="image/png" selected>PNG · 支持透明，可减色压缩</option><option value="image/jpeg">JPEG · 适合照片</option><option value="image/webp">WebP · 支持透明</option></select>
                         <div id="backgroundFields" hidden><label class="field" for="jpegBackground">JPEG 透明区域底色</label><input id="jpegBackground" type="color" value="#ffffff"></div>
                         <p class="hint" id="formatHint">PNG 保留透明背景，适合截图、插画。</p>
-                        <button type="button" id="bestCompression" class="best-compression" aria-pressed="true"><span>推荐</span><strong>最佳压缩</strong><small>尽量保留原图观感，自动减小体积</small></button>
-                        <div id="targetSizeFields">
-                            <div class="slider-label"><label for="targetSizeMB">压缩大小</label><output id="targetSizeValue" for="targetSizeMB">自动 · 最佳压缩</output></div>
-                            <input id="targetSizeMB" type="range" min="0" max="3" step="0.01" value="0" aria-describedby="compressionHint">
-                            <div class="slider-scale" aria-hidden="true"><span>0 · 自动</span><span>1 MB</span><span>2 MB</span><span>3 MB</span></div>
-                        </div>
-                        <div id="shrinkFields" hidden><label class="check"><input id="allowShrink" type="checkbox" checked><span>必要时允许进一步缩小图像尺寸</span></label></div>
-                        <p class="hint" id="compressionHint">自动比较压缩前后的细节，保留上方设置的尺寸；实际节省因图片而异。拖动滑条可指定每张图片的大小。</p>
+                        <fieldset class="compression-levels" aria-describedby="compressionHint">
+                            <legend>压缩程度</legend>
+                            <div class="compression-options">
+                                <label class="compression-option"><input type="radio" name="compressionLevel" value="light"><span class="compression-choice"><strong>轻度</strong><small>画质优先</small></span></label>
+                                <label class="compression-option"><input type="radio" name="compressionLevel" value="balanced" checked><span class="compression-choice"><strong>适中 · 推荐</strong><small>兼顾画质与体积</small></span></label>
+                                <label class="compression-option"><input type="radio" name="compressionLevel" value="strong"><span class="compression-choice"><strong>较强</strong><small>更小体积，少量细节损失</small></span></label>
+                                <label class="compression-option"><input type="radio" name="compressionLevel" value="extreme"><span class="compression-choice"><strong>极限</strong><small>体积优先，细节损失明显</small></span></label>
+                            </div>
+                        </fieldset>
+                        <p class="hint" id="compressionHint" aria-live="polite">适中：兼顾画质与体积。保持上方设置的尺寸，实际节省因图片而异。</p>
                     </section>
                 </fieldset>
             </form>
@@ -210,7 +223,7 @@
 </div>
 <dialog id="imageViewer" class="image-viewer" aria-labelledby="viewerTitle" aria-describedby="viewerFilename viewerMeta">
     <header class="viewer-header">
-        <div class="viewer-heading"><h2 id="viewerTitle">原图预览</h2><p id="viewerFilename" class="viewer-filename"></p><p id="viewerMeta" class="viewer-meta"></p></div>
+        <div class="viewer-heading"><h2 id="viewerTitle">原图与压缩图对比</h2><p id="viewerFilename" class="viewer-filename"></p><p id="viewerMeta" class="viewer-meta"></p></div>
         <button type="button" id="viewerClose" class="viewer-close" aria-label="关闭图片预览" title="关闭（Esc）" autofocus>×</button>
     </header>
     <div class="viewer-toolbar" role="group" aria-label="预览缩放">
@@ -218,13 +231,25 @@
         <output id="viewerZoom" aria-label="当前缩放比例">100%</output>
         <button type="button" id="viewerZoomIn" class="btn" aria-label="放大预览">＋</button>
         <button type="button" id="viewerFit" class="btn" aria-pressed="true">适应窗口</button>
-        <button type="button" id="viewerActual" class="btn" aria-pressed="false" title="按原始像素尺寸显示">100%</button>
+        <button type="button" id="viewerActual" class="btn" aria-pressed="false" title="按压缩图的原始像素尺寸显示，两图保持同等大小">100%</button>
     </div>
-    <div id="viewerStage" class="viewer-stage" tabindex="0" role="region" aria-label="图片预览区域：方向键移动，加减键缩放，0 适应窗口，1 显示原始尺寸">
-        <img id="viewerImage" alt="" draggable="false" hidden>
-        <p id="viewerMessage" class="viewer-message" role="status">正在加载图片…</p>
+    <div class="viewer-comparison">
+        <section class="viewer-pane" aria-labelledby="viewerOriginalTitle">
+            <div class="viewer-pane-heading"><h3 id="viewerOriginalTitle">原图</h3><p id="viewerOriginalMeta"></p></div>
+            <div id="viewerOriginalStage" class="viewer-stage" tabindex="0" role="region" aria-label="原图预览：方向键同步移动，加减键同步缩放，0 适应窗口，1 显示原始尺寸">
+                <div id="viewerOriginalFrame" class="viewer-frame"><img id="viewerOriginalImage" alt="" draggable="false" hidden></div>
+                <p id="viewerOriginalMessage" class="viewer-message" role="status">正在加载原图…</p>
+            </div>
+        </section>
+        <section class="viewer-pane" aria-labelledby="viewerResultTitle">
+            <div class="viewer-pane-heading"><h3 id="viewerResultTitle">压缩图</h3><p id="viewerResultMeta"></p></div>
+            <div id="viewerResultStage" class="viewer-stage" tabindex="0" role="region" aria-label="压缩图预览：方向键同步移动，加减键同步缩放，0 适应窗口，1 显示原始尺寸">
+                <div id="viewerResultFrame" class="viewer-frame"><img id="viewerResultImage" alt="" draggable="false" hidden></div>
+                <p id="viewerResultMessage" class="viewer-message" role="status">还没有压缩图，请先开始批量处理。</p>
+            </div>
+        </section>
     </div>
-    <p class="viewer-help">滚轮或按钮缩放 · 放大后拖动查看细节 · Esc 关闭</p>
+    <p id="viewerHelp" class="viewer-help">两图同步缩放和拖动 · 滚轮或按钮缩放 · Esc 关闭</p>
 </dialog>
 <script>
 'use strict';
@@ -232,36 +257,59 @@ const $ = id => document.getElementById(id);
 const state = { items: [], nextId: 1, busy: '', cancel: false, revision: 0 };
 const MIME_EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
 const CANCELLED = 'AbortError';
-const viewer = { itemId: null, kind: '', width: 0, height: 0, scale: 1, fitScale: 1, x: 0, y: 0, fit: true, drag: null };
+const COMPRESSION_LEVELS = {
+    light: { label: '轻度', quality: .92, pngQuality: .96, description: '画质优先，尽量保留细节。' },
+    balanced: { label: '适中', quality: .78, pngQuality: .78, description: '兼顾画质与体积，适合日常使用。' },
+    strong: { label: '较强', quality: .55, pngQuality: .50, description: '进一步减小体积，部分纹理和颜色细节会减少。' },
+    extreme: { label: '极限', quality: .30, pngQuality: .20, description: '体积优先，渐变、文字边缘和纹理可能出现明显损失。' }
+};
+const viewer = { itemId: null, session: 0, width: 0, height: 0, scale: 1, fitScale: 1, x: 0, y: 0, fit: true, drag: null, hasResult: false };
+const viewerPanes = ['Original', 'Result'].map(name => ({
+    stage: $(`viewer${name}Stage`), frame: $(`viewer${name}Frame`),
+    image: $(`viewer${name}Image`), message: $(`viewer${name}Message`)
+}));
 
+function viewerBounds() {
+    const panes = viewer.hasResult ? viewerPanes : viewerPanes.slice(0, 1);
+    return {
+        x: Math.min(...panes.map(({ stage }) => Math.max(0, (viewer.width * viewer.scale - stage.clientWidth) / 2))),
+        y: Math.min(...panes.map(({ stage }) => Math.max(0, (viewer.height * viewer.scale - stage.clientHeight) / 2)))
+    };
+}
 function renderViewer() {
-    const stage = $('viewerStage');
-    const limitX = Math.max(0, (viewer.width * viewer.scale - stage.clientWidth) / 2);
-    const limitY = Math.max(0, (viewer.height * viewer.scale - stage.clientHeight) / 2);
-    viewer.x = Math.max(-limitX, Math.min(limitX, viewer.x));
-    viewer.y = Math.max(-limitY, Math.min(limitY, viewer.y));
-    const left = (stage.clientWidth - viewer.width * viewer.scale) / 2 + viewer.x;
-    const top = (stage.clientHeight - viewer.height * viewer.scale) / 2 + viewer.y;
-    $('viewerImage').style.transform = `translate(${left}px, ${top}px) scale(${viewer.scale})`;
+    if (viewer.itemId === null) return;
+    const limits = viewerBounds();
+    viewer.x = Math.max(-limits.x, Math.min(limits.x, viewer.x));
+    viewer.y = Math.max(-limits.y, Math.min(limits.y, viewer.y));
+    viewerPanes.forEach(({ stage, frame }, index) => {
+        const left = (stage.clientWidth - viewer.width * viewer.scale) / 2 + viewer.x;
+        const top = (stage.clientHeight - viewer.height * viewer.scale) / 2 + viewer.y;
+        frame.style.transform = `translate(${left}px, ${top}px) scale(${viewer.scale})`;
+        stage.classList.toggle('can-pan', (index === 0 || viewer.hasResult) && (limits.x > 0 || limits.y > 0));
+    });
     $('viewerZoom').textContent = `${(viewer.scale * 100).toLocaleString('zh-CN', { maximumFractionDigits: 1 })}%`;
     $('viewerZoomOut').disabled = viewer.scale <= Math.min(viewer.fitScale, .1);
     $('viewerZoomIn').disabled = viewer.scale >= 8;
     $('viewerFit').setAttribute('aria-pressed', String(viewer.fit));
     $('viewerActual').setAttribute('aria-pressed', String(Math.abs(viewer.scale - 1) < .0001));
-    stage.classList.toggle('can-pan', limitX > 0 || limitY > 0);
 }
 function fitViewer() {
+    endViewerDrag();
     viewer.fit = true; viewer.scale = viewer.fitScale; viewer.x = viewer.y = 0;
     renderViewer();
 }
 function resizeViewer() {
-    if (!$('imageViewer').open) return;
-    const stage = $('viewerStage');
-    viewer.fitScale = Math.min(1, Math.max(1, stage.clientWidth - 24) / viewer.width, Math.max(1, stage.clientHeight - 24) / viewer.height);
+    if (!$('imageViewer').open || viewer.itemId === null) return;
+    const panes = viewer.hasResult ? viewerPanes : viewerPanes.slice(0, 1);
+    viewer.fitScale = Math.min(1, ...panes.flatMap(({ stage }) => [
+        Math.max(1, stage.clientWidth - 24) / viewer.width,
+        Math.max(1, stage.clientHeight - 24) / viewer.height
+    ]));
     if (viewer.fit) fitViewer(); else renderViewer();
 }
 function zoomViewer(scale, anchorX = 0, anchorY = 0) {
-    if (!$('imageViewer').open) return;
+    if (!$('imageViewer').open || viewer.itemId === null) return;
+    endViewerDrag();
     const next = Math.max(Math.min(viewer.fitScale, .1), Math.min(8, scale));
     const ratio = next / viewer.scale;
     viewer.x = anchorX - (anchorX - viewer.x) * ratio;
@@ -270,43 +318,72 @@ function zoomViewer(scale, anchorX = 0, anchorY = 0) {
     renderViewer();
 }
 function endViewerDrag() {
-    const stage = $('viewerStage');
-    if (viewer.drag && stage.hasPointerCapture(viewer.drag.id)) stage.releasePointerCapture(viewer.drag.id);
-    viewer.drag = null; stage.classList.remove('is-dragging');
+    const drag = viewer.drag;
+    viewer.drag = null;
+    if (drag && drag.stage.hasPointerCapture(drag.id)) drag.stage.releasePointerCapture(drag.id);
+    viewerPanes.forEach(({ stage }) => stage.classList.remove('is-dragging'));
 }
 function clearViewer() {
-    endViewerDrag(); viewer.itemId = null;
-    $('viewerImage').hidden = true; $('viewerImage').removeAttribute('src');
+    endViewerDrag(); viewer.itemId = null; viewer.session++;
+    viewerPanes.forEach(({ image }) => { image.hidden = true; image.removeAttribute('src'); });
     document.body.classList.remove('viewer-open');
 }
 function closeViewer() { $('imageViewer').close(); clearViewer(); }
-function openViewer(item, kind) {
-    const processed = kind === 'result';
-    if (processed && !currentResult(item)) return;
-    const source = processed ? item.result : item;
-    const filename = processed ? source.filename : item.file.name;
-    Object.assign(viewer, { itemId: item.id, kind, width: source.width, height: source.height, x: 0, y: 0, fit: true });
-    const img = $('viewerImage');
-    img.hidden = true; img.alt = `${processed ? '处理后' : '原图'}：${filename}`;
-    img.style.width = `${source.width}px`; img.style.height = `${source.height}px`;
-    $('viewerTitle').textContent = processed ? '处理后预览' : '原图预览';
-    $('viewerFilename').textContent = filename; $('viewerFilename').title = filename;
-    $('viewerMeta').textContent = `${source.width} × ${source.height} px · ${bytes(processed ? source.blob.size : item.file.size)}`;
-    $('viewerMessage').textContent = '正在加载图片…'; $('viewerMessage').hidden = false;
-    img.src = processed ? source.url : item.sourceUrl;
+async function loadViewerPane(pane, url, label, session) {
+    pane.image.hidden = true; pane.message.hidden = false;
+    pane.message.textContent = `正在加载${label}…`;
+    pane.image.src = url;
+    try {
+        await pane.image.decode();
+        if (session !== viewer.session || viewer.itemId === null) return;
+        pane.image.hidden = false; pane.message.hidden = true;
+    } catch (_) {
+        if (session !== viewer.session || viewer.itemId === null) return;
+        pane.message.textContent = `${label}加载失败，请关闭后重试。`;
+    }
+}
+function openViewer(item) {
+    endViewerDrag();
+    const result = currentResult(item) ? item.result : null;
+    const geometry = result?.geometry || { x: 0, y: 0, cropWidth: item.width, cropHeight: item.height };
+    const width = result ? result.width : item.width, height = result ? result.height : item.height;
+    const cropped = geometry.cropWidth < item.width || geometry.cropHeight < item.height;
+    Object.assign(viewer, { itemId: item.id, hasResult: Boolean(result), width, height, x: 0, y: 0, fit: true });
+    const session = ++viewer.session;
+    viewerPanes.forEach(({ frame, image }) => {
+        frame.style.width = `${width}px`; frame.style.height = `${height}px`;
+        image.hidden = true; image.removeAttribute('src');
+    });
+    // 将原图的裁剪区域映射到输出尺寸，让两侧同一位置的细节始终对齐。
+    const original = viewerPanes[0].image, scaleX = width / geometry.cropWidth, scaleY = height / geometry.cropHeight;
+    original.style.width = `${item.width * scaleX}px`; original.style.height = `${item.height * scaleY}px`;
+    original.style.left = `${-geometry.x * scaleX}px`; original.style.top = `${-geometry.y * scaleY}px`;
+    original.alt = `原图：${item.file.name}`;
+    $('viewerOriginalTitle').textContent = cropped ? '原图 · 裁剪区域' : '原图';
+    $('viewerOriginalMeta').textContent = `${item.width} × ${item.height} px · ${bytes(item.file.size)}`;
+    $('viewerTitle').textContent = '原图与压缩图对比';
+    $('viewerFilename').textContent = item.file.name; $('viewerFilename').title = item.file.name;
+    $('viewerActual').title = result ? '按压缩图的原始像素尺寸显示，两图保持同等大小' : '按原图的原始像素尺寸显示';
+    $('viewerHelp').textContent = result ? '两图同步缩放和拖动 · 100% 按压缩图像素显示，原图同等大小对齐 · Esc 关闭' : '滚轮或按钮缩放 · 放大后拖动查看细节 · Esc 关闭';
+    if (result) {
+        const compressed = viewerPanes[1].image, saving = (1 - result.blob.size / item.file.size) * 100;
+        compressed.style.width = `${width}px`; compressed.style.height = `${height}px`;
+        compressed.style.left = compressed.style.top = '0px'; compressed.alt = `压缩图：${result.filename}`;
+        $('viewerResultMeta').textContent = `${width} × ${height} px · ${bytes(result.blob.size)} · ${COMPRESSION_LEVELS[result.compressionLevel].label}压缩`;
+        $('viewerMeta').textContent = `体积${saving >= 0 ? '减小' : '增大'} ${Math.abs(saving).toFixed(1)}% · ${cropped ? '原图按裁剪区域对齐' : '两图同等大小对齐'}`;
+        loadViewerPane(viewerPanes[1], result.url, '压缩图', session);
+    } else {
+        $('viewerResultMeta').textContent = '尚未处理';
+        $('viewerMeta').textContent = '处理完成后，点击任一缩略图即可同时对比原图与压缩图。';
+        viewerPanes[1].message.hidden = false;
+        viewerPanes[1].message.textContent = '还没有压缩图，请先开始批量处理。';
+    }
+    loadViewerPane(viewerPanes[0], item.sourceUrl, '原图', session);
     document.body.classList.add('viewer-open');
     if (!$('imageViewer').open) $('imageViewer').showModal();
     resizeViewer();
 }
 
-$('viewerImage').addEventListener('load', () => {
-    if (viewer.itemId === null) return;
-    $('viewerImage').hidden = false; $('viewerMessage').hidden = true;
-});
-$('viewerImage').addEventListener('error', () => {
-    if (viewer.itemId === null) return;
-    $('viewerMessage').textContent = '图片加载失败，请关闭后重试。'; $('viewerMessage').hidden = false;
-});
 $('viewerClose').addEventListener('click', closeViewer);
 $('imageViewer').addEventListener('cancel', event => { event.preventDefault(); closeViewer(); });
 $('imageViewer').addEventListener('close', () => { if (!$('imageViewer').open) clearViewer(); });
@@ -319,40 +396,44 @@ $('viewerFit').addEventListener('click', fitViewer);
 $('viewerActual').addEventListener('click', () => { viewer.x = viewer.y = 0; zoomViewer(1); });
 $('viewerZoomIn').addEventListener('click', () => zoomViewer(viewer.scale * 1.25));
 $('viewerZoomOut').addEventListener('click', () => zoomViewer(viewer.scale / 1.25));
-$('viewerStage').addEventListener('wheel', event => {
-    event.preventDefault();
-    const rect = $('viewerStage').getBoundingClientRect();
-    const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? rect.height : 1);
-    zoomViewer(viewer.scale * Math.exp(-Math.max(-240, Math.min(240, delta)) * .002), event.clientX - rect.left - rect.width / 2, event.clientY - rect.top - rect.height / 2);
-}, { passive: false });
-$('viewerStage').addEventListener('pointerdown', event => {
-    if (event.button !== 0 || viewer.drag || !$('viewerStage').classList.contains('can-pan')) return;
-    event.preventDefault();
-    $('viewerStage').focus({ preventScroll: true });
-    viewer.drag = { id: event.pointerId, startX: event.clientX, startY: event.clientY, x: viewer.x, y: viewer.y };
-    $('viewerStage').setPointerCapture(event.pointerId); $('viewerStage').classList.add('is-dragging');
+const viewerResizeObserver = new ResizeObserver(resizeViewer);
+viewerPanes.forEach(({ stage }, index) => {
+    stage.addEventListener('wheel', event => {
+        event.preventDefault();
+        if (index === 1 && !viewer.hasResult) return;
+        const rect = stage.getBoundingClientRect();
+        const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? rect.height : 1);
+        zoomViewer(viewer.scale * Math.exp(-Math.max(-240, Math.min(240, delta)) * .002), event.clientX - rect.left - rect.width / 2, event.clientY - rect.top - rect.height / 2);
+    }, { passive: false });
+    stage.addEventListener('pointerdown', event => {
+        if (event.button !== 0 || viewer.drag || !stage.classList.contains('can-pan')) return;
+        event.preventDefault(); stage.focus({ preventScroll: true });
+        viewer.drag = { id: event.pointerId, stage, startX: event.clientX, startY: event.clientY, x: viewer.x, y: viewer.y };
+        stage.setPointerCapture(event.pointerId);
+        viewerPanes.forEach(pane => pane.stage.classList.add('is-dragging'));
+    });
+    stage.addEventListener('pointermove', event => {
+        if (!viewer.drag || viewer.drag.stage !== stage || viewer.drag.id !== event.pointerId) return;
+        viewer.x = viewer.drag.x + event.clientX - viewer.drag.startX;
+        viewer.y = viewer.drag.y + event.clientY - viewer.drag.startY;
+        renderViewer();
+    });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(name => stage.addEventListener(name, event => {
+        if (viewer.drag?.stage === stage && viewer.drag.id === event.pointerId) endViewerDrag();
+    }));
+    stage.addEventListener('keydown', event => {
+        if (index === 1 && !viewer.hasResult) return;
+        const movement = { ArrowLeft: [40, 0], ArrowRight: [-40, 0], ArrowUp: [0, 40], ArrowDown: [0, -40] }[event.key];
+        if (movement) { viewer.x += movement[0]; viewer.y += movement[1]; renderViewer(); }
+        else if (event.key === '+' || event.key === '=') zoomViewer(viewer.scale * 1.25);
+        else if (event.key === '-') zoomViewer(viewer.scale / 1.25);
+        else if (event.key === '0') fitViewer();
+        else if (event.key === '1') { viewer.x = viewer.y = 0; zoomViewer(1); }
+        else return;
+        event.preventDefault();
+    });
+    viewerResizeObserver.observe(stage);
 });
-$('viewerStage').addEventListener('pointermove', event => {
-    if (!viewer.drag || viewer.drag.id !== event.pointerId) return;
-    viewer.x = viewer.drag.x + event.clientX - viewer.drag.startX;
-    viewer.y = viewer.drag.y + event.clientY - viewer.drag.startY;
-    renderViewer();
-});
-['pointerup', 'pointercancel', 'lostpointercapture'].forEach(name => $('viewerStage').addEventListener(name, event => {
-    if (viewer.drag?.id === event.pointerId) endViewerDrag();
-}));
-$('viewerStage').addEventListener('keydown', event => {
-    const movement = { ArrowLeft: [40, 0], ArrowRight: [-40, 0], ArrowUp: [0, 40], ArrowDown: [0, -40] }[event.key];
-    if (movement) { viewer.x += movement[0]; viewer.y += movement[1]; renderViewer(); }
-    else if (event.key === '+' || event.key === '=') zoomViewer(viewer.scale * 1.25);
-    else if (event.key === '-') zoomViewer(viewer.scale / 1.25);
-    else if (event.key === '0') fitViewer();
-    else if (event.key === '1') { viewer.x = viewer.y = 0; zoomViewer(1); }
-    else return;
-    event.preventDefault();
-});
-new ResizeObserver(resizeViewer).observe($('viewerStage'));
-
 function bytes(value) {
     if (value < 1024) return `${value} B`;
     const unit = value < 1024 * 1024 ? 'KB' : 'MB';
@@ -383,14 +464,9 @@ function updateSettingsUI() {
     const png = $('outputFormat').value === 'image/png';
     const jpeg = $('outputFormat').value === 'image/jpeg';
     showFields('backgroundFields', jpeg);
-    const targetMB = Number($('targetSizeMB').value), automatic = targetMB === 0;
-    const targetLabel = `${targetMB.toLocaleString('zh-CN', { maximumFractionDigits: 2 })} MB`;
-    $('bestCompression').setAttribute('aria-pressed', String(automatic));
-    $('targetSizeValue').textContent = automatic ? '自动 · 最佳压缩' : targetLabel;
-    $('targetSizeMB').setAttribute('aria-valuetext', $('targetSizeValue').textContent);
-    showFields('shrinkFields', !automatic);
+    const level = COMPRESSION_LEVELS[document.querySelector('input[name="compressionLevel"]:checked').value];
     $('formatHint').textContent = png ? 'PNG 保留透明背景，适合截图、插画。' : jpeg ? 'JPEG 适合照片；透明区域会填充为所选底色。' : 'WebP 支持透明背景，适合照片和网页图片。';
-    $('compressionHint').textContent = automatic ? '自动比较压缩前后的细节，保留上方设置的尺寸；实际节省因图片而异。拖动滑条可指定每张图片的大小。' : `每张图片尽量不超过 ${targetLabel}，未达到目标会提示；目标越小，细节可能损失越多。0 表示自动最佳压缩。`;
+    $('compressionHint').textContent = `${level.label}：${level.description}${png ? 'PNG 通过减少颜色层次压缩，保留透明度。' : ''}保持上方设置的尺寸，实际节省因图片而异。`;
 }
 function readSettings() {
     const crop = $('cropRatio').value;
@@ -398,7 +474,7 @@ function readSettings() {
         sizeMode: $('sizeMode').value, maxWidth: Number($('maxWidth').value), maxHeight: Number($('maxHeight').value), scale: Number($('scalePercentInput').value) / 100,
         cropRatio: crop === 'original' ? null : parseCropRatio(crop === 'custom' ? $('cropCustom').value : crop),
         cropPosition: $('cropPosition').value, mime: $('outputFormat').value, background: $('jpegBackground').value,
-        targetBytes: Math.round(Number($('targetSizeMB').value) * 1024 * 1024), allowShrink: Number($('targetSizeMB').value) > 0 && $('allowShrink').checked
+        compressionLevel: document.querySelector('input[name="compressionLevel"]:checked').value
     };
 }
 function updateControls() {
@@ -437,20 +513,25 @@ function createCard(item) {
     card.querySelector('.file-name').title = item.file.name;
     card.querySelector('.original').src = item.sourceUrl;
     const originalPreview = card.querySelector('.original-preview');
-    originalPreview.setAttribute('aria-label', `查看原图：${item.file.name}`);
-    originalPreview.addEventListener('click', () => openViewer(item, 'original'));
+    originalPreview.setAttribute('aria-label', `放大查看原图：${item.file.name}`);
+    originalPreview.dataset.previewLabel = '放大查看';
+    originalPreview.addEventListener('click', () => openViewer(item));
     card.querySelector('.original-info').textContent = `${item.width} × ${item.height} · ${bytes(item.file.size)}`;
     const remove = card.querySelector('.remove');
     remove.setAttribute('aria-label', `移除 ${item.file.name}`);
     remove.addEventListener('click', () => removeItem(item.id));
     item.view = { card, preview: card.querySelector('.result-preview'), info: card.querySelector('.result-info'), label: card.querySelector('.result-label'), download: card.querySelector('.download'), note: card.querySelector('.note') };
-    item.view.preview.setAttribute('aria-label', `查看处理后图片：${item.file.name}`);
-    item.view.preview.addEventListener('click', () => openViewer(item, 'result'));
+    item.view.preview.setAttribute('aria-label', `放大对比原图与压缩图：${item.file.name}`);
+    item.view.preview.dataset.previewLabel = '放大对比';
+    item.view.preview.addEventListener('click', () => openViewer(item));
     item.view.download.addEventListener('click', () => { if (currentResult(item) && !state.busy) triggerDownload(item.result.url, item.result.filename); });
     $('imageGrid').appendChild(card);
 }
 function updateCard(item) {
     const view = item.view;
+    const originalPreview = view.card.querySelector('.original-preview');
+    originalPreview.dataset.previewLabel = currentResult(item) ? '放大对比' : '放大查看';
+    originalPreview.setAttribute('aria-label', `${currentResult(item) ? '放大对比原图与压缩图' : '放大查看原图'}：${item.file.name}`);
     view.preview.disabled = !currentResult(item);
     view.preview.replaceChildren(); view.preview.classList.add('waiting'); view.info.textContent = '—'; view.note.hidden = true;
     view.label.className = 'result-label';
@@ -460,13 +541,11 @@ function updateCard(item) {
         view.preview.appendChild(img); view.preview.classList.remove('waiting');
         view.info.textContent = `${result.width} × ${result.height} · ${bytes(result.blob.size)}`;
         const saving = (1 - result.blob.size / item.file.size) * 100;
-        view.label.textContent = `${MIME_EXT[result.blob.type].toUpperCase()} · ${saving >= 0 ? '减小' : '增大'} ${Math.abs(saving).toFixed(1)}%`;
-        view.label.classList.add(saving >= 0 && result.targetMet !== false ? 'good' : 'warn');
+        view.label.textContent = `${COMPRESSION_LEVELS[result.compressionLevel].label} · ${MIME_EXT[result.blob.type].toUpperCase()} · ${saving >= 0 ? '减小' : '增大'} ${Math.abs(saving).toFixed(1)}%`;
+        view.label.classList.add(saving >= 0 ? 'good' : 'warn');
         const notes = [];
-        if (result.targetMet === false) notes.push(`未达到 ${bytes(result.targetBytes)} 目标${result.canShrink ? '，已尽力压缩' : '；可勾选“允许进一步缩小尺寸”'}`);
         if (result.reusedOriginal) notes.push('原图已较精简，保留原文件画质与体积');
-        else if (result.targetBytes === null && saving < 0) notes.push('保留细节并转换为当前格式后体积增加，可尝试其他输出格式');
-        if (result.width < result.requestedWidth || result.height < result.requestedHeight) notes.push('为满足体积目标，已进一步缩小尺寸');
+        else if (saving < 0) notes.push('转换为当前格式后体积增加，可尝试更强的压缩程度或其他输出格式');
         if (result.limited) notes.push('原图尺寸较大，输出已限制至安全处理范围');
         view.note.textContent = notes.join('。'); view.note.hidden = !notes.length;
     } else {
@@ -476,9 +555,10 @@ function updateCard(item) {
         if (item.error) view.label.classList.add('error');
     }
     view.download.disabled = Boolean(state.busy) || !currentResult(item);
+    if (viewer.itemId === item.id && currentResult(item) && !viewer.hasResult) openViewer(item);
 }
 function disposeResult(item) {
-    if (viewer.itemId === item.id && viewer.kind === 'result') closeViewer();
+    if (viewer.itemId === item.id) closeViewer();
     if (item.result) URL.revokeObjectURL(item.result.url);
     item.result = null;
 }
@@ -586,81 +666,6 @@ async function encodeCanvas(canvas, mime, quality) {
         return blob;
     } finally { if (reduced) reduced.width = reduced.height = 1; }
 }
-async function encodeToBudget(canvas, settings, target) {
-    // 仅以文件体积为目标，从完整细节开始自动选择压缩参数。
-    let best = await encodeCanvas(canvas, settings.mime, 1);
-    if (best.size <= target) return best;
-    const floor = .05;
-    let low = floor, high = 1;
-    const smallest = await encodeCanvas(canvas, settings.mime, floor);
-    if (smallest.size > target) return smallest.size < best.size ? smallest : best;
-    best = smallest;
-    // 在目标体积内尽量保留画质。
-    for (let i = 0; i < 7 && high - low > .005; i++) {
-        const quality = (low + high) / 2;
-        const blob = await encodeCanvas(canvas, settings.mime, quality);
-        if (blob.size <= target) { best = blob; low = quality; } else high = quality;
-    }
-    return best;
-}
-function qualityRegions(width, height) {
-    const scale = Math.min(1, 320 / Math.max(width, height));
-    const regions = [{ x: 0, y: 0, width, height, sampleWidth: Math.max(1, Math.round(width * scale)), sampleHeight: Math.max(1, Math.round(height * scale)) }];
-    if (scale < 1) {
-        const w = Math.min(96, width), h = Math.min(96, height);
-        for (const [x, y] of [[0, 0], [1, 0], [.5, .5], [0, 1], [1, 1]]) regions.push({ x: Math.round((width - w) * x), y: Math.round((height - h) * y), width: w, height: h, sampleWidth: w, sampleHeight: h });
-    }
-    return regions;
-}
-function sampleDetails(drawable, regions) {
-    const canvas = document.createElement('canvas'), context = canvas.getContext('2d', { willReadFrequently: true });
-    try {
-        return regions.map(region => {
-            canvas.width = region.sampleWidth; canvas.height = region.sampleHeight;
-            context.fillStyle = '#808080'; context.fillRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(drawable, region.x, region.y, region.width, region.height, 0, 0, canvas.width, canvas.height);
-            return context.getImageData(0, 0, canvas.width, canvas.height);
-        });
-    } finally { canvas.width = canvas.height = 1; }
-}
-function detailsAreSimilar(reference, candidate) {
-    // 同时比较整体和原始像素局部；8 × 8 亮度结构与 RGB 误差共同限制明显损失。
-    const { width, height, data: a } = reference, b = candidate.data;
-    let similarity = 0, blocks = 0, colorError = 0;
-    for (let top = 0; top < height; top += 8) for (let left = 0; left < width; left += 8) {
-        let count = 0, sumA = 0, sumB = 0, squareA = 0, squareB = 0, product = 0;
-        for (let y = top; y < Math.min(top + 8, height); y++) for (let x = left; x < Math.min(left + 8, width); x++) {
-            const i = (y * width + x) * 4;
-            const lumaA = .299 * a[i] + .587 * a[i + 1] + .114 * a[i + 2];
-            const lumaB = .299 * b[i] + .587 * b[i + 1] + .114 * b[i + 2];
-            count++; sumA += lumaA; sumB += lumaB; squareA += lumaA * lumaA; squareB += lumaB * lumaB; product += lumaA * lumaB;
-            for (let c = 0; c < 3; c++) colorError += (a[i + c] - b[i + c]) ** 2;
-        }
-        const meanA = sumA / count, meanB = sumB / count;
-        const varianceA = Math.max(0, squareA / count - meanA * meanA), varianceB = Math.max(0, squareB / count - meanB * meanB);
-        const covariance = product / count - meanA * meanB;
-        similarity += ((2 * meanA * meanB + 6.5025) * (2 * covariance + 58.5225)) / ((meanA * meanA + meanB * meanB + 6.5025) * (varianceA + varianceB + 58.5225));
-        blocks++;
-    }
-    return similarity / blocks >= .985 && Math.sqrt(colorError / (width * height * 3)) <= 4;
-}
-async function encodeBest(canvas, settings) {
-    const regions = qualityRegions(canvas.width, canvas.height), reference = sampleDetails(canvas, regions);
-    let best = await encodeCanvas(canvas, settings.mime, 1);
-    for (const quality of [.94, .88, .82]) {
-        checkCancelled();
-        const blob = await encodeCanvas(canvas, settings.mime, quality);
-        if (blob.size >= best.size) continue;
-        const url = URL.createObjectURL(blob); let drawable;
-        try {
-            drawable = await loadDrawable(blob, url);
-            checkCancelled();
-            const candidate = sampleDetails(drawable, regions);
-            if (reference.every((sample, index) => detailsAreSimilar(sample, candidate[index]))) best = blob;
-        } finally { drawable?.close?.(); URL.revokeObjectURL(url); }
-    }
-    return best;
-}
 async function canReuseOriginal(item, geometry, settings) {
     if (item.file.type !== settings.mime || geometry.width !== item.width || geometry.height !== item.height || geometry.cropWidth !== item.width || geometry.cropHeight !== item.height) return false;
     // 仅复用未裁剪、未缩放的同格式静态原文件；动图仍需转换为静态图片。
@@ -684,29 +689,16 @@ async function processImage(item, settings) {
     try {
         checkCancelled();
         const geometry = imageGeometry(item.width, item.height, settings);
-        const target = settings.targetBytes > 0 ? settings.targetBytes : null;
-        let width = geometry.width, height = geometry.height, blob;
-        if (target === null) {
-            const canvas = drawImageCanvas(drawable, geometry, width, height, settings);
-            try { blob = await encodeBest(canvas, settings); }
-            finally { canvas.width = canvas.height = 1; }
-            const reusedOriginal = item.file.size <= blob.size && await canReuseOriginal(item, geometry, settings);
-            if (reusedOriginal) blob = item.file;
-            return { blob, width, height, targetBytes: null, targetMet: null, canShrink: false, reusedOriginal, requestedWidth: width, requestedHeight: height, limited: geometry.limited };
-        }
-        for (let attempt = 0; attempt < 14; attempt++) {
-            checkCancelled();
-            const canvas = drawImageCanvas(drawable, geometry, width, height, settings);
-            try { blob = await encodeToBudget(canvas, settings, target); }
-            finally { canvas.width = canvas.height = 1; }
-            if (blob.size <= target || !settings.allowShrink || (width === 1 && height === 1) || attempt === 13) break;
-            const shrink = Math.max(.15, Math.min(.85, Math.sqrt(target / blob.size) * .9));
-            const nextWidth = Math.max(1, Math.floor(width * shrink));
-            const nextHeight = Math.max(1, Math.floor(height * shrink));
-            if (nextWidth === width && nextHeight === height) break;
-            width = nextWidth; height = nextHeight;
-        }
-        return { blob, width, height, targetBytes: target, targetMet: blob.size <= target, canShrink: settings.allowShrink, requestedWidth: geometry.width, requestedHeight: geometry.height, limited: geometry.limited };
+        const { width, height } = geometry;
+        const preset = COMPRESSION_LEVELS[settings.compressionLevel];
+        const quality = settings.mime === 'image/png' ? preset.pngQuality : preset.quality;
+        const canvas = drawImageCanvas(drawable, geometry, width, height, settings);
+        let blob;
+        try { blob = await encodeCanvas(canvas, settings.mime, quality); }
+        finally { canvas.width = canvas.height = 1; }
+        const reusedOriginal = item.file.size <= blob.size && await canReuseOriginal(item, geometry, settings);
+        if (reusedOriginal) blob = item.file;
+        return { blob, width, height, geometry, compressionLevel: settings.compressionLevel, reusedOriginal, limited: geometry.limited };
     } finally { drawable.close?.(); }
 }
 function outputNames(settings) {
@@ -724,7 +716,7 @@ async function processAll() {
     state.busy = 'processing'; state.cancel = false; updateControls();
     $('progress').hidden = false; $('progress').max = state.items.length; $('progress').value = 0;
     state.items.forEach(item => { disposeResult(item); item.error = ''; updateCard(item); });
-    let finished = 0, failures = 0, overTarget = 0;
+    let finished = 0, failures = 0;
     try {
         for (let index = 0; index < state.items.length; index++) {
             checkCancelled();
@@ -734,14 +726,14 @@ async function processAll() {
             try {
                 const result = await processImage(item, settings); checkCancelled();
                 item.result = { ...result, url: URL.createObjectURL(result.blob), filename: filenames[index], revision };
-                finished++; if (result.targetMet === false) overTarget++;
+                finished++;
             } catch (error) {
                 if (error.name === CANCELLED) throw error;
                 item.error = error.message || '处理失败，请尝试其他格式或更小尺寸'; failures++;
             } finally { item.processing = false; updateCard(item); }
             $('progress').value = index + 1; updateSummary();
         }
-        status(`处理完成：${finished} 张成功${failures ? `，${failures} 张失败` : ''}${overTarget ? `；${overTarget} 张未达到体积目标，请查看图片提示` : '。可单张下载或下载 ZIP。'}`, failures > 0);
+        status(`处理完成：${finished} 张成功${failures ? `，${failures} 张失败` : ''} · ${COMPRESSION_LEVELS[settings.compressionLevel].label}压缩。点击任一图片可放大对比，也可单张下载或下载 ZIP。`, failures > 0);
     } catch (error) {
         status(error.name === CANCELLED ? `已停止，保留 ${finished} 张处理结果，可下载或重新处理。` : `处理出错：${error.message}`, error.name !== CANCELLED);
     } finally { state.busy = ''; state.cancel = false; updateSummary(); }
@@ -810,11 +802,6 @@ document.querySelectorAll('[data-scale]').forEach(button => button.addEventListe
     $('scalePercentInput').value = button.dataset.scale;
     updateSettingsUI(); invalidateResults();
 }));
-$('bestCompression').addEventListener('click', () => {
-    if (state.busy || Number($('targetSizeMB').value) === 0) return;
-    $('targetSizeMB').value = 0;
-    updateSettingsUI(); invalidateResults();
-});
 $('resetSettings').addEventListener('click', () => {
     if (state.busy) return;
     $('settingsForm').reset();
