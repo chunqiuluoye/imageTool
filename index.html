@@ -52,6 +52,14 @@
         .scale-presets { display: flex; gap: 6px; margin-top: 10px; }
         .scale-presets button { flex: 1; padding: 5px 0; border: 1px solid var(--line); border-radius: 7px; color: #52627a; background: white; font-size: 12px; }
         .scale-presets button[aria-pressed="true"] { color: var(--blue); background: #edf3ff; border-color: #b8ceff; }
+        .resolution-preview { margin-top: 12px; padding: 10px 12px; border: 1px solid #cbdcff; border-radius: 9px; background: #f4f8ff; }
+        .resolution-preview > span { display: block; color: var(--muted); font-size: 11px; }
+        .resolution-preview output { display: block; font-size: 16px; font-variant-numeric: tabular-nums; }
+        .resolution-preview ul { list-style: none; padding: 0; margin: 7px 0 0; max-height: 150px; overflow-y: auto; }
+        .resolution-preview li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 8px; padding: 4px 0; font-size: 11px; border-top: 1px solid #e2eaff; }
+        .resolution-preview li span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; color: var(--muted); }
+        .target-resolution { padding: 8px 14px 0; margin: 0; color: var(--blue); font-size: 11px; }
+        .size-budget { display: grid; grid-template-columns: minmax(0, 1fr) 75px; gap: 8px; }
         .compression-levels { margin-top: 16px; }
         .compression-levels legend { padding: 0; margin-bottom: 8px; font-size: 12px; font-weight: 600; }
         .compression-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -115,33 +123,44 @@
         .download { background: #eff4ff; border: 0; color: var(--blue); border-radius: 7px; padding: 5px 10px; white-space: nowrap; font-size: 11px; }
         .note { padding: 0 14px 12px; margin: 0; font-size: 11px; color: #ab650a; }
         body.viewer-open { overflow: hidden; }
-        .image-viewer { width: min(1400px, calc(100vw - 40px)); height: min(900px, calc(100dvh - 64px)); max-width: none; max-height: none; padding: 0; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: white; box-shadow: 0 24px 80px #0f172a40; overflow: hidden; }
+        .image-viewer { width: min(1400px, calc(100vw - 40px)); height: min(900px, calc(100dvh - 64px)); max-width: none; max-height: none; padding: 0; border: 1px solid #303743; border-radius: 16px; color: #edf2f8; background: #171b22; box-shadow: 0 24px 80px #0f172a80; overflow: hidden; color-scheme: dark; }
         .image-viewer::backdrop { background: #122034b8; }
         .image-viewer[open] { display: flex; flex-direction: column; }
-        .viewer-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 15px 20px; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+        .viewer-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 15px 20px; border-bottom: 1px solid #303743; flex-shrink: 0; }
         .viewer-heading { min-width: 0; }
         .viewer-heading h2 { margin: 0; font-size: 17px; }
-        .viewer-filename { margin: 2px 0; color: #4b5b73; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .viewer-meta { margin: 0; color: var(--muted); font-size: 11px; }
-        .viewer-close { width: 38px; height: 38px; flex-shrink: 0; border: 0; border-radius: 9px; background: #f0f4fa; color: #52627a; font-size: 24px; }
+        .viewer-filename { margin: 2px 0; color: #b2bfce; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .viewer-meta { margin: 0; color: #a1afc1; font-size: 11px; }
+        .viewer-close { width: 38px; height: 38px; flex-shrink: 0; border: 1px solid #394455; border-radius: 9px; background: #242c38; color: #e5ecf5; font-size: 24px; }
         .viewer-toolbar { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px; padding: 10px 12px; flex-shrink: 0; }
-        .viewer-toolbar .btn { padding: 6px 12px; font-size: 12px; }
-        .viewer-toolbar output { min-width: 58px; text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; }
-        .viewer-toolbar [aria-pressed="true"] { border-color: #b8ceff; background: #edf3ff; color: var(--blue); }
-        .viewer-comparison { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 0 12px; }
-        .viewer-pane { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
-        .viewer-pane-heading { min-height: 56px; padding: 0 4px 8px; }
-        .viewer-pane-heading h3 { margin: 0 0 3px; font-size: 13px; }
-        .viewer-pane-heading p { margin: 0; font-size: 11px; color: var(--muted); overflow-wrap: anywhere; }
-        .viewer-stage { position: relative; flex: 1; min-height: 0; overflow: hidden; background: repeating-conic-gradient(#e7ebf0 0% 25%, #f8fafc 0% 50%) 50% / 24px 24px; border: 1px solid var(--line); border-radius: 10px; touch-action: none; user-select: none; }
+        .viewer-toolbar .btn { padding: 6px 12px; font-size: 12px; background: #242c38; color: #e5ecf5; border-color: #394455; }
+        .viewer-toolbar .btn:hover:not(:disabled) { background: #344153; }
+        .viewer-toolbar output { min-width: 58px; text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; color: #72dcb3; }
+        .viewer-toolbar [aria-pressed="true"] { border-color: #4aba91; background: #203b34; color: #81e7be; }
+        .viewer-stage { --split: 50%; position: relative; flex: 1; min-height: 0; margin: 0 12px; overflow: hidden; background: repeating-conic-gradient(#252c35 0% 25%, #1c222b 0% 50%) 50% / 20px 20px; border: 1px solid #303743; border-radius: 10px; touch-action: none; user-select: none; }
         .viewer-stage.can-pan { cursor: grab; }
         .viewer-stage.is-dragging { cursor: grabbing; }
+        .viewer-stage.is-splitting { cursor: ew-resize; }
+        .viewer-layer { position: absolute; inset: 0; pointer-events: none; }
+        .viewer-stage.is-comparing .viewer-original-layer { clip-path: inset(0 calc(100% - var(--split)) 0 0); }
+        .viewer-stage.is-comparing .viewer-result-layer { clip-path: inset(0 0 0 var(--split)); }
         .viewer-frame { position: absolute; top: 0; left: 0; overflow: hidden; transform-origin: 0 0; pointer-events: none; }
         .viewer-frame img { position: absolute; max-width: none; max-height: none; }
-        .viewer-message { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; margin: 0; color: var(--muted); background: #f5f7fb; font-size: 12px; text-align: center; }
-        .viewer-help { margin: 0; padding: 10px 12px; text-align: center; color: var(--muted); font-size: 11px; flex-shrink: 0; }
+        .viewer-label { position: absolute; top: 12px; left: 12px; z-index: 2; max-width: calc(50% - 18px); padding: 7px 10px; border-radius: 7px; background: #0e141edb; pointer-events: none; }
+        .viewer-label.result { left: auto; right: 12px; text-align: right; }
+        .viewer-label strong { display: block; font-size: 12px; }
+        .viewer-label span { display: block; margin-top: 2px; color: #b4c2d3; font-size: 10px; overflow-wrap: anywhere; }
+        .viewer-split-line { position: absolute; top: 0; bottom: 0; left: var(--split); width: 2px; transform: translateX(-50%); background: #b7f5de; box-shadow: 0 0 0 1px #0c141680; z-index: 3; pointer-events: none; }
+        .viewer-divider { position: absolute; top: 0; bottom: 0; left: clamp(22px, var(--split), calc(100% - 22px)); width: 44px; transform: translateX(-50%); z-index: 4; display: grid; place-items: center; cursor: ew-resize; touch-action: none; outline-offset: -4px; }
+        .viewer-divider span { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #789c92; border-radius: 50%; background: #17232b; color: #e9fff7; font-size: 22px; box-shadow: 0 2px 12px #0006; pointer-events: none; }
+        .viewer-divider:focus-visible span { outline: 3px solid #81e7be; outline-offset: 3px; }
+        .viewer-message { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; margin: 0; z-index: 5; color: #b4c2d3; background: #1c222b; font-size: 12px; text-align: center; }
+        .viewer-split-controls { display: flex; align-items: center; gap: 12px; margin: 10px 16px 0; flex-shrink: 0; font-size: 11px; color: #b4c2d3; }
+        .viewer-split-controls input { flex: 1; min-width: 0; margin: 0; accent-color: #52bb92; }
+        .viewer-split-controls button { padding: 4px 8px; background: #242c38; color: #d5e7e0; border: 1px solid #394455; border-radius: 6px; }
+        .viewer-help { margin: 0; padding: 10px 12px; text-align: center; color: #a1afc1; font-size: 11px; flex-shrink: 0; }
         footer { text-align: center; font-size: 11px; color: #8a96a7; margin-top: 28px; }
-        @media (max-width: 680px) { .image-viewer { width: calc(100vw - 16px); height: calc(100dvh - 32px); border-radius: 12px; } .viewer-header { padding: 12px; } .viewer-comparison { grid-template-columns: 1fr; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 0 8px; } .viewer-pane-heading { min-height: 48px; padding-bottom: 5px; } .viewer-toolbar { gap: 6px; } }
+        @media (max-width: 680px) { .image-viewer { width: calc(100vw - 16px); height: calc(100dvh - 32px); border-radius: 12px; } .viewer-header { padding: 12px; } .viewer-stage { margin: 0 8px; } .viewer-label { top: 8px; left: 8px; padding: 5px 7px; } .viewer-label.result { left: auto; right: 8px; } .viewer-toolbar { gap: 6px; } .viewer-split-controls { margin: 10px 10px 0; gap: 8px; } }
         @media (min-width: 1400px) { .image-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
         @media (max-width: 950px) { .app { padding: 20px; } .workspace { grid-template-columns: 280px minmax(0, 1fr); gap: 16px; } .setting-section { padding: 17px; } .image-grid { grid-template-columns: 1fr; } .stat { padding: 0 10px; } .stat strong { font-size: 17px; } }
         @media (max-width: 680px) { .app { padding: 16px; } .workspace { grid-template-columns: 1fr; } .header { align-items: flex-start; gap: 8px; } .brand-mark { display: none; } h1 { font-size: 23px; } .subtitle { font-size: 12px; } .local-tag { font-size: 10px; padding: 5px 8px; } .settings-head { padding: 13px 17px; } .setting-section { padding: 14px 17px; } .image-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); } .stat { padding: 0 8px; } .stat strong { font-size: 16px; } .toolbar-actions { width: 100%; } .btn { padding: 9px 12px; font-size: 12px; } }
@@ -170,6 +189,12 @@
                         </div>
                         <div id="boundsFields" class="pair" hidden><div><label class="field" for="maxWidth">最大宽（px）</label><input id="maxWidth" type="number" min="1" max="8192" step="1" value="1080" required></div><span>×</span><div><label class="field" for="maxHeight">最大高（px）</label><input id="maxHeight" type="number" min="1" max="8192" step="1" value="1080" required></div></div>
                         <p class="hint" id="sizeHint">50% 表示宽高各缩小一半，可拖动或直接输入百分比。</p>
+                        <div class="resolution-preview">
+                            <span>目标分辨率 · 裁剪与缩放后</span>
+                            <output id="targetResolution" for="scalePercent scalePercentInput sizeMode maxWidth maxHeight cropRatio cropCustom" aria-live="polite">添加图片后显示</output>
+                            <ul id="targetResolutionList" aria-label="每张图片的目标分辨率" hidden></ul>
+                            <p id="resolutionHint" class="hint">拖动比例或输入百分比即可实时查看。</p>
+                        </div>
                     </section>
                     <section class="setting-section">
                         <h3 class="section-title"><span class="step">02</span> 裁剪比例</h3>
@@ -182,19 +207,25 @@
                     <section class="setting-section">
                         <h3 class="section-title"><span class="step">03</span> 输出与压缩</h3>
                         <label class="field" for="outputFormat">文件格式</label>
-                        <select id="outputFormat"><option value="image/png" selected>PNG · 支持透明，可减色压缩</option><option value="image/jpeg">JPEG · 适合照片</option><option value="image/webp">WebP · 支持透明</option></select>
+                        <select id="outputFormat"><option value="image/png">PNG · 无损优化，支持透明</option><option value="image/jpeg">JPEG · 适合照片</option><option value="image/webp" selected>WebP · 高效压缩，支持透明</option><option value="original" hidden>保留原文件 / 调整后保存 PNG</option></select>
                         <div id="backgroundFields" hidden><label class="field" for="jpegBackground">JPEG 透明区域底色</label><input id="jpegBackground" type="color" value="#ffffff"></div>
                         <p class="hint" id="formatHint">PNG 保留透明背景，适合截图、插画。</p>
                         <fieldset class="compression-levels" aria-describedby="compressionHint">
                             <legend>压缩程度</legend>
                             <div class="compression-options">
-                                <label class="compression-option"><input type="radio" name="compressionLevel" value="light"><span class="compression-choice"><strong>轻度</strong><small>画质优先</small></span></label>
-                                <label class="compression-option"><input type="radio" name="compressionLevel" value="balanced" checked><span class="compression-choice"><strong>适中 · 推荐</strong><small>兼顾画质与体积</small></span></label>
+                                <label class="compression-option"><input type="radio" name="compressionLevel" value="lossless"><span class="compression-choice"><strong>无损</strong><small>不压缩，保留原文件</small></span></label>
+                                <label class="compression-option"><input type="radio" name="compressionLevel" value="recommended" checked><span class="compression-choice"><strong>推荐</strong><small>自动平衡画质与体积</small></span></label>
                                 <label class="compression-option"><input type="radio" name="compressionLevel" value="strong"><span class="compression-choice"><strong>较强</strong><small>更小体积，少量细节损失</small></span></label>
-                                <label class="compression-option"><input type="radio" name="compressionLevel" value="extreme"><span class="compression-choice"><strong>极限</strong><small>体积优先，细节损失明显</small></span></label>
+                                <label class="compression-option"><input type="radio" name="compressionLevel" value="custom"><span class="compression-choice"><strong>自定义大小</strong><small>设置每张图片的体积上限</small></span></label>
                             </div>
                         </fieldset>
-                        <p class="hint" id="compressionHint" aria-live="polite">适中：兼顾画质与体积。保持上方设置的尺寸，实际节省因图片而异。</p>
+                        <div id="targetSizeFields" hidden>
+                            <label class="field" for="maxFileSize">每张图片最大大小</label>
+                            <div class="size-budget"><input id="maxFileSize" type="number" min="0.01" max="4096" step="0.01" value="1" required aria-describedby="budgetHint"><select id="maxFileUnit" aria-label="文件大小单位"><option value="MB">MB</option><option value="KB">KB</option></select></div>
+                            <label class="check"><input id="allowShrink" type="checkbox" checked><span>必要时允许缩小分辨率，优先保留清晰度</span></label>
+                            <p id="budgetHint" class="hint">优先在目标分辨率内调整画质；上限过小时再缩小尺寸，实际分辨率会显示在结果中。</p>
+                        </div>
+                        <p class="hint" id="compressionHint" aria-live="polite">推荐：比较压缩前后的细节，自动寻找合适的画质。</p>
                     </section>
                 </fieldset>
             </form>
@@ -204,7 +235,7 @@
                 <div class="upload-icon" aria-hidden="true">↥</div><h2>将多张图片拖到这里</h2>
                 <p>支持 JPG、PNG、WebP、GIF 等浏览器可读取的图片</p>
                 <button type="button" id="chooseFiles" class="btn primary">＋ 选择图片</button><input id="fileInput" type="file" accept="image/*,.avif,.heic,.heif" multiple hidden>
-                <p class="hint" style="margin: 12px 0 0;">可分批添加；GIF 等动图会转换为静态图片。</p>
+                <p class="hint" style="margin: 12px 0 0;">可分批添加；重新编码时动图转为静态，无损且不调整时保留原文件。</p>
             </section>
             <section class="summary" aria-label="处理统计">
                 <div class="stat"><span>已处理 / 总数</span><strong id="imageCount">0 / 0</strong></div>
@@ -233,61 +264,69 @@
         <button type="button" id="viewerFit" class="btn" aria-pressed="true">适应窗口</button>
         <button type="button" id="viewerActual" class="btn" aria-pressed="false" title="按压缩图的原始像素尺寸显示，两图保持同等大小">100%</button>
     </div>
-    <div class="viewer-comparison">
-        <section class="viewer-pane" aria-labelledby="viewerOriginalTitle">
-            <div class="viewer-pane-heading"><h3 id="viewerOriginalTitle">原图</h3><p id="viewerOriginalMeta"></p></div>
-            <div id="viewerOriginalStage" class="viewer-stage" tabindex="0" role="region" aria-label="原图预览：方向键同步移动，加减键同步缩放，0 适应窗口，1 显示原始尺寸">
-                <div id="viewerOriginalFrame" class="viewer-frame"><img id="viewerOriginalImage" alt="" draggable="false" hidden></div>
-                <p id="viewerOriginalMessage" class="viewer-message" role="status">正在加载原图…</p>
-            </div>
-        </section>
-        <section class="viewer-pane" aria-labelledby="viewerResultTitle">
-            <div class="viewer-pane-heading"><h3 id="viewerResultTitle">压缩图</h3><p id="viewerResultMeta"></p></div>
-            <div id="viewerResultStage" class="viewer-stage" tabindex="0" role="region" aria-label="压缩图预览：方向键同步移动，加减键同步缩放，0 适应窗口，1 显示原始尺寸">
-                <div id="viewerResultFrame" class="viewer-frame"><img id="viewerResultImage" alt="" draggable="false" hidden></div>
-                <p id="viewerResultMessage" class="viewer-message" role="status">还没有压缩图，请先开始批量处理。</p>
-            </div>
-        </section>
+    <div id="viewerStage" class="viewer-stage" tabindex="0" role="region" aria-label="图片对比区域：左原图，右压缩图；滚轮缩放，放大后拖动画面，方向键移动">
+        <div id="viewerOriginalLayer" class="viewer-layer viewer-original-layer" hidden>
+            <div id="viewerOriginalFrame" class="viewer-frame"><img id="viewerOriginalImage" alt="" draggable="false"></div>
+        </div>
+        <div id="viewerResultLayer" class="viewer-layer viewer-result-layer" hidden>
+            <div id="viewerResultFrame" class="viewer-frame"><img id="viewerResultImage" alt="" draggable="false"></div>
+        </div>
+        <div class="viewer-label"><strong id="viewerOriginalTitle">原图</strong><span id="viewerOriginalMeta"></span></div>
+        <div id="viewerResultLabel" class="viewer-label result"><strong>压缩图</strong><span id="viewerResultMeta"></span></div>
+        <div id="viewerSplitLine" class="viewer-split-line" hidden></div>
+        <div id="viewerDivider" class="viewer-divider" role="slider" tabindex="0" aria-label="原图与压缩图分界线" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-controls="viewerOriginalLayer viewerResultLayer" hidden><span aria-hidden="true">↔</span></div>
+        <p id="viewerMessage" class="viewer-message" role="status">正在加载图片…</p>
     </div>
-    <p id="viewerHelp" class="viewer-help">两图同步缩放和拖动 · 滚轮或按钮缩放 · Esc 关闭</p>
+    <div id="viewerSplitControls" class="viewer-split-controls" hidden>
+        <span aria-hidden="true">原图</span><input id="viewerSplitRange" type="range" min="0" max="100" step="0.1" value="50" aria-label="原图显示比例" aria-controls="viewerOriginalLayer viewerResultLayer"><span aria-hidden="true">压缩图</span>
+        <button id="viewerSplitReset" type="button" title="将分界线恢复到正中间">居中</button>
+    </div>
+    <p id="viewerHelp" class="viewer-help">拖动分界线对比：左原图 · 右压缩图；滚轮缩放，放大后拖动画面 · Esc 关闭</p>
 </dialog>
 <script>
 'use strict';
 const $ = id => document.getElementById(id);
-const state = { items: [], nextId: 1, busy: '', cancel: false, revision: 0 };
-const MIME_EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
+const state = { items: [], nextId: 1, busy: '', cancel: false, revision: 0, previousFormat: 'image/webp', cancelEncoding: null };
+const MIME_EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif', 'image/svg+xml': 'svg', 'image/bmp': 'bmp', 'image/avif': 'avif', 'image/heic': 'heic', 'image/heif': 'heif' };
 const CANCELLED = 'AbortError';
 const COMPRESSION_LEVELS = {
-    light: { label: '轻度', quality: .92, pngQuality: .96, description: '画质优先，尽量保留细节。' },
-    balanced: { label: '适中', quality: .78, pngQuality: .78, description: '兼顾画质与体积，适合日常使用。' },
-    strong: { label: '较强', quality: .55, pngQuality: .50, description: '进一步减小体积，部分纹理和颜色细节会减少。' },
-    extreme: { label: '极限', quality: .30, pngQuality: .20, description: '体积优先，渐变、文字边缘和纹理可能出现明显损失。' }
+    lossless: { label: '无损', description: '不缩放、不裁剪时直接保留原文件；调整后以 PNG 保存，不再引入有损编码。' },
+    recommended: { label: '推荐', minQuality: .72, similarity: .985, worstSimilarity: .965, colorError: 5, edgeError: 8, description: '比较整体、文字边缘与局部纹理，自动平衡细节与体积。' },
+    strong: { label: '较强', minQuality: .56, similarity: .970, worstSimilarity: .930, colorError: 9, edgeError: 14, description: '允许少量细节损失，优先保持分辨率，避免明显色带和模糊。' },
+    custom: { label: '自定义大小', description: '在每张图片的体积上限内优先保留细节；无法满足上限时会明确提示。' }
 };
-const viewer = { itemId: null, session: 0, width: 0, height: 0, scale: 1, fitScale: 1, x: 0, y: 0, fit: true, drag: null, hasResult: false };
-const viewerPanes = ['Original', 'Result'].map(name => ({
-    stage: $(`viewer${name}Stage`), frame: $(`viewer${name}Frame`),
-    image: $(`viewer${name}Image`), message: $(`viewer${name}Message`)
+const viewer = { itemId: null, session: 0, width: 0, height: 0, scale: 1, fitScale: 1, x: 0, y: 0, split: 50, fit: true, drag: null, hasResult: false, ready: false };
+const viewerLayers = ['Original', 'Result'].map(name => ({
+    layer: $('viewer' + name + 'Layer'), frame: $('viewer' + name + 'Frame'), image: $('viewer' + name + 'Image')
 }));
+const viewerStage = $('viewerStage');
 
 function viewerBounds() {
-    const panes = viewer.hasResult ? viewerPanes : viewerPanes.slice(0, 1);
     return {
-        x: Math.min(...panes.map(({ stage }) => Math.max(0, (viewer.width * viewer.scale - stage.clientWidth) / 2))),
-        y: Math.min(...panes.map(({ stage }) => Math.max(0, (viewer.height * viewer.scale - stage.clientHeight) / 2)))
+        x: Math.max(0, (viewer.width * viewer.scale - viewerStage.clientWidth) / 2),
+        y: Math.max(0, (viewer.height * viewer.scale - viewerStage.clientHeight) / 2)
     };
+}
+function setViewerSplit(value) {
+    viewer.split = Math.max(0, Math.min(100, Number(value)));
+    viewerStage.style.setProperty('--split', viewer.split + '%');
+    const label = '左侧原图 ' + viewer.split.toFixed(1).replace(/\.0$/, '') + '%，右侧压缩图 ' + (100 - viewer.split).toFixed(1).replace(/\.0$/, '') + '%';
+    $('viewerDivider').setAttribute('aria-valuenow', String(viewer.split));
+    $('viewerDivider').setAttribute('aria-valuetext', label);
+    $('viewerSplitRange').value = viewer.split;
+    $('viewerSplitRange').setAttribute('aria-valuetext', label);
 }
 function renderViewer() {
     if (viewer.itemId === null) return;
     const limits = viewerBounds();
     viewer.x = Math.max(-limits.x, Math.min(limits.x, viewer.x));
     viewer.y = Math.max(-limits.y, Math.min(limits.y, viewer.y));
-    viewerPanes.forEach(({ stage, frame }, index) => {
-        const left = (stage.clientWidth - viewer.width * viewer.scale) / 2 + viewer.x;
-        const top = (stage.clientHeight - viewer.height * viewer.scale) / 2 + viewer.y;
-        frame.style.transform = `translate(${left}px, ${top}px) scale(${viewer.scale})`;
-        stage.classList.toggle('can-pan', (index === 0 || viewer.hasResult) && (limits.x > 0 || limits.y > 0));
-    });
-    $('viewerZoom').textContent = `${(viewer.scale * 100).toLocaleString('zh-CN', { maximumFractionDigits: 1 })}%`;
+    const left = (viewerStage.clientWidth - viewer.width * viewer.scale) / 2 + viewer.x;
+    const top = (viewerStage.clientHeight - viewer.height * viewer.scale) / 2 + viewer.y;
+    // 两层始终占用同一坐标空间；只裁切显示区域，不随分界线改变图像尺寸。
+    viewerLayers.forEach(({ frame }) => { frame.style.transform = 'translate(' + left + 'px, ' + top + 'px) scale(' + viewer.scale + ')'; });
+    viewerStage.classList.toggle('can-pan', viewer.ready && (limits.x > 0 || limits.y > 0));
+    $('viewerZoom').textContent = (viewer.scale * 100).toLocaleString('zh-CN', { maximumFractionDigits: 1 }) + '%';
     $('viewerZoomOut').disabled = viewer.scale <= Math.min(viewer.fitScale, .1);
     $('viewerZoomIn').disabled = viewer.scale >= 8;
     $('viewerFit').setAttribute('aria-pressed', String(viewer.fit));
@@ -300,46 +339,45 @@ function fitViewer() {
 }
 function resizeViewer() {
     if (!$('imageViewer').open || viewer.itemId === null) return;
-    const panes = viewer.hasResult ? viewerPanes : viewerPanes.slice(0, 1);
-    viewer.fitScale = Math.min(1, ...panes.flatMap(({ stage }) => [
-        Math.max(1, stage.clientWidth - 24) / viewer.width,
-        Math.max(1, stage.clientHeight - 24) / viewer.height
-    ]));
+    viewer.fitScale = Math.min(1, Math.max(1, viewerStage.clientWidth - 24) / viewer.width, Math.max(1, viewerStage.clientHeight - 24) / viewer.height);
     if (viewer.fit) fitViewer(); else renderViewer();
 }
 function zoomViewer(scale, anchorX = 0, anchorY = 0) {
     if (!$('imageViewer').open || viewer.itemId === null) return;
     endViewerDrag();
-    const next = Math.max(Math.min(viewer.fitScale, .1), Math.min(8, scale));
-    const ratio = next / viewer.scale;
+    const next = Math.max(Math.min(viewer.fitScale, .1), Math.min(8, scale)), ratio = next / viewer.scale;
     viewer.x = anchorX - (anchorX - viewer.x) * ratio;
     viewer.y = anchorY - (anchorY - viewer.y) * ratio;
-    viewer.scale = next; viewer.fit = false;
-    renderViewer();
+    viewer.scale = next; viewer.fit = false; renderViewer();
 }
 function endViewerDrag() {
-    const drag = viewer.drag;
-    viewer.drag = null;
-    if (drag && drag.stage.hasPointerCapture(drag.id)) drag.stage.releasePointerCapture(drag.id);
-    viewerPanes.forEach(({ stage }) => stage.classList.remove('is-dragging'));
+    const drag = viewer.drag; viewer.drag = null;
+    if (drag && drag.target.hasPointerCapture(drag.id)) drag.target.releasePointerCapture(drag.id);
+    viewerStage.classList.remove('is-dragging', 'is-splitting');
+}
+function showViewerComparison(visible) {
+    viewerStage.classList.toggle('is-comparing', visible);
+    for (const id of ['viewerDivider', 'viewerSplitLine', 'viewerSplitControls']) $(id).hidden = !visible;
 }
 function clearViewer() {
-    endViewerDrag(); viewer.itemId = null; viewer.session++;
-    viewerPanes.forEach(({ image }) => { image.hidden = true; image.removeAttribute('src'); });
+    endViewerDrag(); viewer.itemId = null; viewer.session++; viewer.ready = false;
+    showViewerComparison(false);
+    viewerLayers.forEach(({ layer, image }) => { layer.hidden = true; image.removeAttribute('src'); });
     document.body.classList.remove('viewer-open');
 }
 function closeViewer() { $('imageViewer').close(); clearViewer(); }
-async function loadViewerPane(pane, url, label, session) {
-    pane.image.hidden = true; pane.message.hidden = false;
-    pane.message.textContent = `正在加载${label}…`;
-    pane.image.src = url;
+async function loadViewerLayers(item, result, session) {
+    const sources = [{ pane: viewerLayers[0], url: item.sourceUrl }];
+    if (result) sources.push({ pane: viewerLayers[1], url: result.url });
     try {
-        await pane.image.decode();
+        await Promise.all(sources.map(async ({ pane, url }) => { pane.image.src = url; await pane.image.decode(); }));
         if (session !== viewer.session || viewer.itemId === null) return;
-        pane.image.hidden = false; pane.message.hidden = true;
+        sources.forEach(({ pane }) => { pane.layer.hidden = false; });
+        viewer.ready = true; $('viewerMessage').hidden = true; showViewerComparison(Boolean(result)); renderViewer();
     } catch (_) {
         if (session !== viewer.session || viewer.itemId === null) return;
-        pane.message.textContent = `${label}加载失败，请关闭后重试。`;
+        $('viewerMessage').textContent = '图片加载失败，请关闭后重试。';
+        $('viewerMessage').hidden = false;
     }
 }
 function openViewer(item) {
@@ -348,40 +386,39 @@ function openViewer(item) {
     const geometry = result?.geometry || { x: 0, y: 0, cropWidth: item.width, cropHeight: item.height };
     const width = result ? result.width : item.width, height = result ? result.height : item.height;
     const cropped = geometry.cropWidth < item.width || geometry.cropHeight < item.height;
-    Object.assign(viewer, { itemId: item.id, hasResult: Boolean(result), width, height, x: 0, y: 0, fit: true });
+    Object.assign(viewer, { itemId: item.id, hasResult: Boolean(result), ready: false, width, height, x: 0, y: 0, fit: true });
     const session = ++viewer.session;
-    viewerPanes.forEach(({ frame, image }) => {
-        frame.style.width = `${width}px`; frame.style.height = `${height}px`;
-        image.hidden = true; image.removeAttribute('src');
+    showViewerComparison(false); setViewerSplit(50);
+    viewerLayers.forEach(({ layer, frame, image }) => {
+        layer.hidden = true; frame.style.width = width + 'px'; frame.style.height = height + 'px'; image.removeAttribute('src');
     });
-    // 将原图的裁剪区域映射到输出尺寸，让两侧同一位置的细节始终对齐。
-    const original = viewerPanes[0].image, scaleX = width / geometry.cropWidth, scaleY = height / geometry.cropHeight;
-    original.style.width = `${item.width * scaleX}px`; original.style.height = `${item.height * scaleY}px`;
-    original.style.left = `${-geometry.x * scaleX}px`; original.style.top = `${-geometry.y * scaleY}px`;
-    original.alt = `原图：${item.file.name}`;
+    const original = viewerLayers[0].image, scaleX = width / geometry.cropWidth, scaleY = height / geometry.cropHeight;
+    original.style.width = item.width * scaleX + 'px'; original.style.height = item.height * scaleY + 'px';
+    original.style.left = -geometry.x * scaleX + 'px'; original.style.top = -geometry.y * scaleY + 'px';
+    original.alt = '原图：' + item.file.name;
     $('viewerOriginalTitle').textContent = cropped ? '原图 · 裁剪区域' : '原图';
-    $('viewerOriginalMeta').textContent = `${item.width} × ${item.height} px · ${bytes(item.file.size)}`;
-    $('viewerTitle').textContent = '原图与压缩图对比';
+    $('viewerOriginalMeta').textContent = item.width + ' × ' + item.height + ' px · ' + bytes(item.file.size);
+    $('viewerTitle').textContent = result ? '原图与压缩图对比' : '原图预览';
     $('viewerFilename').textContent = item.file.name; $('viewerFilename').title = item.file.name;
     $('viewerActual').title = result ? '按压缩图的原始像素尺寸显示，两图保持同等大小' : '按原图的原始像素尺寸显示';
-    $('viewerHelp').textContent = result ? '两图同步缩放和拖动 · 100% 按压缩图像素显示，原图同等大小对齐 · Esc 关闭' : '滚轮或按钮缩放 · 放大后拖动查看细节 · Esc 关闭';
+    $('viewerResultLabel').hidden = !result;
+    $('viewerHelp').textContent = result
+        ? '拖动分界线：左原图 · 右压缩图；滚轮缩放，放大后拖动画面 · 100% 按压缩图像素显示 · Esc 关闭'
+        : '滚轮或按钮缩放 · 放大后拖动查看细节 · 处理后可拖动分界线对比 · Esc 关闭';
     if (result) {
-        const compressed = viewerPanes[1].image, saving = (1 - result.blob.size / item.file.size) * 100;
-        compressed.style.width = `${width}px`; compressed.style.height = `${height}px`;
-        compressed.style.left = compressed.style.top = '0px'; compressed.alt = `压缩图：${result.filename}`;
-        $('viewerResultMeta').textContent = `${width} × ${height} px · ${bytes(result.blob.size)} · ${COMPRESSION_LEVELS[result.compressionLevel].label}压缩`;
-        $('viewerMeta').textContent = `体积${saving >= 0 ? '减小' : '增大'} ${Math.abs(saving).toFixed(1)}% · ${cropped ? '原图按裁剪区域对齐' : '两图同等大小对齐'}`;
-        loadViewerPane(viewerPanes[1], result.url, '压缩图', session);
+        const compressed = viewerLayers[1].image, saving = (1 - result.blob.size / item.file.size) * 100;
+        compressed.style.width = width + 'px'; compressed.style.height = height + 'px';
+        compressed.style.left = compressed.style.top = '0px'; compressed.alt = '压缩图：' + result.filename;
+        $('viewerResultMeta').textContent = width + ' × ' + height + ' px · ' + bytes(result.blob.size) + ' · ' + COMPRESSION_LEVELS[result.compressionLevel].label;
+        $('viewerMeta').textContent = bytes(item.file.size) + ' → ' + bytes(result.blob.size) + ' · 体积' + (saving >= 0 ? '减小' : '增大') + ' ' + Math.abs(saving).toFixed(1) + '%' + (cropped ? ' · 原图按裁剪区域对齐' : '');
     } else {
-        $('viewerResultMeta').textContent = '尚未处理';
-        $('viewerMeta').textContent = '处理完成后，点击任一缩略图即可同时对比原图与压缩图。';
-        viewerPanes[1].message.hidden = false;
-        viewerPanes[1].message.textContent = '还没有压缩图，请先开始批量处理。';
+        $('viewerResultMeta').textContent = '';
+        $('viewerMeta').textContent = '尚未生成压缩图，当前显示完整原图。';
     }
-    loadViewerPane(viewerPanes[0], item.sourceUrl, '原图', session);
+    $('viewerMessage').textContent = result ? '正在加载对比图片…' : '正在加载原图…'; $('viewerMessage').hidden = false;
     document.body.classList.add('viewer-open');
     if (!$('imageViewer').open) $('imageViewer').showModal();
-    resizeViewer();
+    resizeViewer(); loadViewerLayers(item, result, session);
 }
 
 $('viewerClose').addEventListener('click', closeViewer);
@@ -396,44 +433,68 @@ $('viewerFit').addEventListener('click', fitViewer);
 $('viewerActual').addEventListener('click', () => { viewer.x = viewer.y = 0; zoomViewer(1); });
 $('viewerZoomIn').addEventListener('click', () => zoomViewer(viewer.scale * 1.25));
 $('viewerZoomOut').addEventListener('click', () => zoomViewer(viewer.scale / 1.25));
-const viewerResizeObserver = new ResizeObserver(resizeViewer);
-viewerPanes.forEach(({ stage }, index) => {
-    stage.addEventListener('wheel', event => {
-        event.preventDefault();
-        if (index === 1 && !viewer.hasResult) return;
-        const rect = stage.getBoundingClientRect();
-        const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? rect.height : 1);
-        zoomViewer(viewer.scale * Math.exp(-Math.max(-240, Math.min(240, delta)) * .002), event.clientX - rect.left - rect.width / 2, event.clientY - rect.top - rect.height / 2);
-    }, { passive: false });
-    stage.addEventListener('pointerdown', event => {
-        if (event.button !== 0 || viewer.drag || !stage.classList.contains('can-pan')) return;
-        event.preventDefault(); stage.focus({ preventScroll: true });
-        viewer.drag = { id: event.pointerId, stage, startX: event.clientX, startY: event.clientY, x: viewer.x, y: viewer.y };
-        stage.setPointerCapture(event.pointerId);
-        viewerPanes.forEach(pane => pane.stage.classList.add('is-dragging'));
-    });
-    stage.addEventListener('pointermove', event => {
-        if (!viewer.drag || viewer.drag.stage !== stage || viewer.drag.id !== event.pointerId) return;
-        viewer.x = viewer.drag.x + event.clientX - viewer.drag.startX;
-        viewer.y = viewer.drag.y + event.clientY - viewer.drag.startY;
-        renderViewer();
-    });
-    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(name => stage.addEventListener(name, event => {
-        if (viewer.drag?.stage === stage && viewer.drag.id === event.pointerId) endViewerDrag();
-    }));
-    stage.addEventListener('keydown', event => {
-        if (index === 1 && !viewer.hasResult) return;
-        const movement = { ArrowLeft: [40, 0], ArrowRight: [-40, 0], ArrowUp: [0, 40], ArrowDown: [0, -40] }[event.key];
-        if (movement) { viewer.x += movement[0]; viewer.y += movement[1]; renderViewer(); }
-        else if (event.key === '+' || event.key === '=') zoomViewer(viewer.scale * 1.25);
-        else if (event.key === '-') zoomViewer(viewer.scale / 1.25);
-        else if (event.key === '0') fitViewer();
-        else if (event.key === '1') { viewer.x = viewer.y = 0; zoomViewer(1); }
-        else return;
-        event.preventDefault();
-    });
-    viewerResizeObserver.observe(stage);
+$('viewerSplitRange').addEventListener('input', event => setViewerSplit(event.target.value));
+$('viewerSplitReset').addEventListener('click', () => setViewerSplit(50));
+function splitAtPointer(event) {
+    const rect = viewerStage.getBoundingClientRect();
+    setViewerSplit((event.clientX - rect.left - viewerStage.clientLeft) / viewerStage.clientWidth * 100);
+}
+const viewerDivider = $('viewerDivider');
+viewerDivider.addEventListener('pointerdown', event => {
+    if (event.button !== 0 || viewer.drag || !viewer.ready || !viewer.hasResult) return;
+    event.preventDefault(); event.stopPropagation(); viewerDivider.focus({ preventScroll: true });
+    viewer.drag = { id: event.pointerId, target: viewerDivider, kind: 'split' };
+    viewerDivider.setPointerCapture(event.pointerId); viewerStage.classList.add('is-splitting');
+    splitAtPointer(event);
 });
+viewerDivider.addEventListener('pointermove', event => {
+    if (viewer.drag?.kind === 'split' && viewer.drag.id === event.pointerId) { event.stopPropagation(); splitAtPointer(event); }
+});
+viewerDivider.addEventListener('keydown', event => {
+    let value = viewer.split, step = event.shiftKey ? 10 : 1;
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') value -= step;
+    else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') value += step;
+    else if (event.key === 'Home') value = 0;
+    else if (event.key === 'End') value = 100;
+    else return;
+    event.preventDefault(); event.stopPropagation(); setViewerSplit(value);
+});
+viewerDivider.addEventListener('dblclick', () => setViewerSplit(50));
+viewerStage.addEventListener('wheel', event => {
+    event.preventDefault();
+    const rect = viewerStage.getBoundingClientRect();
+    const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? rect.height : 1);
+    zoomViewer(viewer.scale * Math.exp(-Math.max(-240, Math.min(240, delta)) * .002), event.clientX - rect.left - viewerStage.clientLeft - viewerStage.clientWidth / 2, event.clientY - rect.top - viewerStage.clientTop - viewerStage.clientHeight / 2);
+}, { passive: false });
+viewerStage.addEventListener('pointerdown', event => {
+    if (event.button !== 0 || viewer.drag || !viewerStage.classList.contains('can-pan')) return;
+    event.preventDefault(); viewerStage.focus({ preventScroll: true });
+    viewer.drag = { id: event.pointerId, target: viewerStage, kind: 'pan', startX: event.clientX, startY: event.clientY, x: viewer.x, y: viewer.y };
+    viewerStage.setPointerCapture(event.pointerId); viewerStage.classList.add('is-dragging');
+});
+viewerStage.addEventListener('pointermove', event => {
+    if (viewer.drag?.kind !== 'pan' || viewer.drag.id !== event.pointerId) return;
+    viewer.x = viewer.drag.x + event.clientX - viewer.drag.startX;
+    viewer.y = viewer.drag.y + event.clientY - viewer.drag.startY; renderViewer();
+});
+for (const target of [viewerStage, viewerDivider]) {
+    for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) target.addEventListener(name, event => {
+        if (viewer.drag?.target === target && viewer.drag.id === event.pointerId) endViewerDrag();
+    });
+}
+viewerStage.addEventListener('keydown', event => {
+    if (event.target !== viewerStage) return;
+    const movement = { ArrowLeft: [40, 0], ArrowRight: [-40, 0], ArrowUp: [0, 40], ArrowDown: [0, -40] }[event.key];
+    if (movement) { viewer.x += movement[0]; viewer.y += movement[1]; renderViewer(); }
+    else if (event.key === '+' || event.key === '=') zoomViewer(viewer.scale * 1.25);
+    else if (event.key === '-') zoomViewer(viewer.scale / 1.25);
+    else if (event.key === '0') fitViewer();
+    else if (event.key === '1') { viewer.x = viewer.y = 0; zoomViewer(1); }
+    else return;
+    event.preventDefault();
+});
+const viewerResizeObserver = new ResizeObserver(resizeViewer);
+viewerResizeObserver.observe(viewerStage);
 function bytes(value) {
     if (value < 1024) return `${value} B`;
     const unit = value < 1024 * 1024 ? 'KB' : 'MB';
@@ -461,12 +522,20 @@ function updateSettingsUI() {
     $('scalePercent').setAttribute('aria-valuetext', `${$('scalePercent').value}%`);
     document.querySelectorAll('[data-scale]').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.scale) === Number($('scalePercentInput').value))));
     $('sizeHint').textContent = $('sizeMode').value === 'scale' ? '50% 表示宽高各缩小一半，可拖动或直接输入百分比。' : '保持宽高比例，等比缩小到指定范围内。';
+    const levelName = document.querySelector('input[name="compressionLevel"]:checked').value;
+    const lossless = levelName === 'lossless';
+    if (lossless && $('outputFormat').value !== 'original') {
+        state.previousFormat = $('outputFormat').value; $('outputFormat').value = 'original';
+    } else if (!lossless && $('outputFormat').value === 'original') $('outputFormat').value = state.previousFormat;
+    $('outputFormat').disabled = lossless;
     const png = $('outputFormat').value === 'image/png';
     const jpeg = $('outputFormat').value === 'image/jpeg';
     showFields('backgroundFields', jpeg);
-    const level = COMPRESSION_LEVELS[document.querySelector('input[name="compressionLevel"]:checked').value];
-    $('formatHint').textContent = png ? 'PNG 保留透明背景，适合截图、插画。' : jpeg ? 'JPEG 适合照片；透明区域会填充为所选底色。' : 'WebP 支持透明背景，适合照片和网页图片。';
-    $('compressionHint').textContent = `${level.label}：${level.description}${png ? 'PNG 通过减少颜色层次压缩，保留透明度。' : ''}保持上方设置的尺寸，实际节省因图片而异。`;
+    showFields('targetSizeFields', levelName === 'custom');
+    const level = COMPRESSION_LEVELS[levelName];
+    $('formatHint').textContent = lossless ? '无损模式保留原格式；缩放或裁剪后输出 PNG。' : png ? 'PNG 优化编码但不减少颜色；照片想明显缩小体积，可选 WebP 或 JPEG。' : jpeg ? 'JPEG 适合照片；透明区域会填充为所选底色。' : 'WebP 支持透明背景，适合照片和网页图片。';
+    $('compressionHint').textContent = `${level.label}：${level.description}${lossless || levelName === 'custom' ? '' : '保持上方设置的尺寸，实际节省因图片而异。'}`;
+    updateResolutionPreview();
 }
 function readSettings() {
     const crop = $('cropRatio').value;
@@ -474,8 +543,43 @@ function readSettings() {
         sizeMode: $('sizeMode').value, maxWidth: Number($('maxWidth').value), maxHeight: Number($('maxHeight').value), scale: Number($('scalePercentInput').value) / 100,
         cropRatio: crop === 'original' ? null : parseCropRatio(crop === 'custom' ? $('cropCustom').value : crop),
         cropPosition: $('cropPosition').value, mime: $('outputFormat').value, background: $('jpegBackground').value,
-        compressionLevel: document.querySelector('input[name="compressionLevel"]:checked').value
+        compressionLevel: document.querySelector('input[name="compressionLevel"]:checked').value,
+        targetBytes: Math.floor(Number($('maxFileSize').value) * ($('maxFileUnit').value === 'MB' ? 1048576 : 1024)),
+        allowShrink: $('allowShrink').checked
     };
+}
+function geometrySettingsValid() {
+    const ids = $('sizeMode').value === 'scale' ? ['scalePercentInput'] : ['maxWidth', 'maxHeight'];
+    if ($('cropRatio').value === 'custom') ids.push('cropCustom');
+    return ids.every(id => $(id).validity.valid && $(id).value !== '');
+}
+function updateResolutionPreview() {
+    const list = $('targetResolutionList'); list.replaceChildren(); list.hidden = true;
+    if (!state.items.length) { $('targetResolution').textContent = '添加图片后显示'; $('resolutionHint').textContent = '拖动比例或输入百分比即可实时查看。'; return; }
+    if (!geometrySettingsValid()) {
+        $('targetResolution').textContent = '请输入有效的尺寸或比例';
+        state.items.forEach(item => { if (item.view) item.view.target.textContent = '目标分辨率：等待有效设置'; });
+        return;
+    }
+    const settings = readSettings();
+    const entries = state.items.map(item => {
+        const geometry = imageGeometry(item.width, item.height, settings);
+        const label = `${geometry.width} × ${geometry.height} px${geometry.limited ? '（大图安全尺寸）' : ''}`;
+        if (item.view) item.view.target.textContent = `目标分辨率：${label}`;
+        return { item, label, geometry };
+    });
+    const distinct = new Set(entries.map(entry => entry.label));
+    $('targetResolution').textContent = distinct.size === 1 ? entries[0].label : `${entries.length} 张图片 · 分辨率分别如下`;
+    if (entries.length > 1) {
+        list.hidden = false;
+        entries.forEach(({ item, label }) => {
+            const row = document.createElement('li'), name = document.createElement('span'), value = document.createElement('strong');
+            name.textContent = item.file.name; name.title = item.file.name; value.textContent = label; row.append(name, value); list.appendChild(row);
+        });
+    }
+    $('resolutionHint').textContent = settings.compressionLevel === 'custom' && settings.allowShrink
+        ? '以上是优先保留的分辨率；为满足大小上限，必要时会缩小，以处理结果为准。'
+        : '按当前裁剪、缩放设置实时计算，与输出尺寸一致。';
 }
 function updateControls() {
     const busy = Boolean(state.busy);
@@ -504,6 +608,7 @@ function updateSummary() {
     $('totalSaving').textContent = completed.length ? `${Math.abs(saving).toFixed(1)}%` : '—';
     $('totalSaving').style.color = saving < 0 ? '#ab650a' : 'var(--green)';
     $('emptyState').hidden = state.items.length > 0;
+    updateResolutionPreview();
     updateControls();
 }
 function createCard(item) {
@@ -521,6 +626,8 @@ function createCard(item) {
     remove.setAttribute('aria-label', `移除 ${item.file.name}`);
     remove.addEventListener('click', () => removeItem(item.id));
     item.view = { card, preview: card.querySelector('.result-preview'), info: card.querySelector('.result-info'), label: card.querySelector('.result-label'), download: card.querySelector('.download'), note: card.querySelector('.note') };
+    item.view.target = document.createElement('p'); item.view.target.className = 'target-resolution';
+    card.querySelector('.comparison').after(item.view.target);
     item.view.preview.setAttribute('aria-label', `放大对比原图与压缩图：${item.file.name}`);
     item.view.preview.dataset.previewLabel = '放大对比';
     item.view.preview.addEventListener('click', () => openViewer(item));
@@ -541,11 +648,16 @@ function updateCard(item) {
         view.preview.appendChild(img); view.preview.classList.remove('waiting');
         view.info.textContent = `${result.width} × ${result.height} · ${bytes(result.blob.size)}`;
         const saving = (1 - result.blob.size / item.file.size) * 100;
-        view.label.textContent = `${COMPRESSION_LEVELS[result.compressionLevel].label} · ${MIME_EXT[result.blob.type].toUpperCase()} · ${saving >= 0 ? '减小' : '增大'} ${Math.abs(saving).toFixed(1)}%`;
-        view.label.classList.add(saving >= 0 ? 'good' : 'warn');
+        view.label.textContent = `${COMPRESSION_LEVELS[result.compressionLevel].label} · ${result.extension.toUpperCase()} · ${saving >= 0 ? '减小' : '增大'} ${Math.abs(saving).toFixed(1)}%`;
+        view.label.classList.add(saving >= 0 && result.targetMet !== false ? 'good' : 'warn');
         const notes = [];
-        if (result.reusedOriginal) notes.push('原图已较精简，保留原文件画质与体积');
+        if (result.reusedOriginal) notes.push(result.compressionLevel === 'lossless' ? '未重新编码，原文件完整保留' : '原图已较精简，保留原文件画质与体积');
         else if (saving < 0) notes.push('转换为当前格式后体积增加，可尝试更强的压缩程度或其他输出格式');
+        if (result.targetBytes) notes.push(`${result.targetMet ? '已满足' : '未达到'}每张 ${bytes(result.targetBytes)} 上限${result.targetMet ? '' : '；可增大上限、允许缩小分辨率或选择 WebP / JPEG'}`);
+        if (result.width !== result.geometry.width || result.height !== result.geometry.height) notes.push(`为满足大小上限，已从 ${result.geometry.width} × ${result.geometry.height} 缩小到 ${result.width} × ${result.height}`);
+        if (result.compressionLevel === 'lossless' && !result.reusedOriginal) notes.push('调整后的像素以 PNG 无损保存；缩放或裁剪本身会改变图像');
+        if (['recommended', 'strong'].includes(result.compressionLevel) && result.metrics && !meetsDetailThreshold(result.metrics, COMPRESSION_LEVELS[result.compressionLevel]))
+            notes.push('当前格式的最高画质仍有细节变化，可选 PNG 或无损模式以保留更多细节');
         if (result.limited) notes.push('原图尺寸较大，输出已限制至安全处理范围');
         view.note.textContent = notes.join('。'); view.note.hidden = !notes.length;
     } else {
@@ -623,6 +735,8 @@ function imageGeometry(width, height, settings) {
     let scale = 1;
     if (settings.sizeMode === 'custom') scale = Math.min(1, settings.maxWidth / cropWidth, settings.maxHeight / cropHeight);
     if (settings.sizeMode === 'scale') scale = settings.scale;
+    if (settings.compressionLevel === 'lossless' && scale === 1 && cropWidth === width && cropHeight === height)
+        return { x: 0, y: 0, cropWidth, cropHeight, width, height, limited: false };
     const safeScale = Math.min(scale, 8192 / Math.max(cropWidth, cropHeight), Math.sqrt(32000000 / (cropWidth * cropHeight)));
     return { x, y, cropWidth, cropHeight, width: Math.max(1, Math.round(cropWidth * safeScale)), height: Math.max(1, Math.round(cropHeight * safeScale)), limited: safeScale < scale };
 }
@@ -635,36 +749,256 @@ function drawImageCanvas(drawable, geometry, width, height, settings) {
     context.drawImage(drawable, geometry.x, geometry.y, geometry.cropWidth, geometry.cropHeight, 0, 0, width, height);
     return canvas;
 }
-async function reducePngColors(canvas, quality) {
-    // 对 RGB 减少颜色级数再编码 PNG；保留每个像素的 alpha 和原始画布。
-    const pixels = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
-    const levels = Math.max(2, Math.round(256 / (2 + Math.pow(1 - quality, 2) * 62)));
-    const lookup = Uint8Array.from({ length: 256 }, (_, value) => Math.round(Math.round(value * (levels - 1) / 255) * 255 / (levels - 1)));
-    const data = pixels.data;
-    for (let row = 0; row < canvas.height; row++) {
-        if (row % 128 === 0) { await new Promise(resolve => setTimeout(resolve, 0)); checkCancelled(); }
-        const end = (row + 1) * canvas.width * 4;
-        for (let index = row * canvas.width * 4; index < end; index += 4) {
-            data[index] = lookup[data[index]];
-            data[index + 1] = lookup[data[index + 1]];
-            data[index + 2] = lookup[data[index + 2]];
+// PNG 在独立线程中比较五种行滤波，再使用浏览器的 DEFLATE 编码。
+// 只改变存储方式，不量化颜色或 alpha；按条带读取，避免复制整张大图。
+function pngEncoderWorker() {
+    const table = Uint32Array.from({ length: 256 }, (_, n) => {
+        let c = n; for (let i = 0; i < 8; i++) c = (c >>> 1) ^ (c & 1 ? 0xedb88320 : 0); return c >>> 0;
+    });
+    function chunk(type, data) {
+        const bytes = new Uint8Array(12 + data.length), view = new DataView(bytes.buffer);
+        view.setUint32(0, data.length); bytes.set(new TextEncoder().encode(type), 4); bytes.set(data, 8);
+        let crc = 0xffffffff;
+        for (let i = 4; i < bytes.length - 4; i++) crc = (crc >>> 8) ^ table[(crc ^ bytes[i]) & 255];
+        view.setUint32(bytes.length - 4, (crc ^ 0xffffffff) >>> 0); return bytes;
+    }
+    function paeth(a, b, c) {
+        const p = a + b - c, x = Math.abs(p - a), y = Math.abs(p - b), z = Math.abs(p - c);
+        return x <= y && x <= z ? a : y <= z ? b : c;
+    }
+    let writer, compressed, previous, width, height, channels, opaque = true;
+    self.onmessage = async ({ data: message }) => {
+        try {
+            if (message.type === 'init') {
+                width = message.width; height = message.height; channels = message.channels;
+                previous = new Uint8Array(width * channels);
+                const stream = new CompressionStream('deflate');
+                compressed = new Response(stream.readable).arrayBuffer();
+                compressed.catch(() => {}); writer = stream.writable.getWriter();
+                self.postMessage({ type: 'ready' }); return;
+            }
+            if (message.type === 'stripe') {
+                const rgba = new Uint8Array(message.buffer), stride = width * channels;
+                const output = new Uint8Array(message.rows * (stride + 1));
+                for (let rowIndex = 0; rowIndex < message.rows; rowIndex++) {
+                    const row = new Uint8Array(stride);
+                    for (let x = 0; x < width; x++) {
+                        const input = (rowIndex * width + x) * 4, offset = x * channels;
+                        row[offset] = rgba[input]; row[offset + 1] = rgba[input + 1]; row[offset + 2] = rgba[input + 2];
+                        if (rgba[input + 3] !== 255) opaque = false;
+                        if (channels === 4) row[offset + 3] = rgba[input + 3];
+                    }
+                    let best, bestScore = Infinity, filter = 0;
+                    for (let mode = 0; mode <= 4; mode++) {
+                        const candidate = new Uint8Array(stride); let score = 0;
+                        for (let i = 0; i < stride; i++) {
+                            const a = i >= channels ? row[i - channels] : 0, b = previous[i], c = i >= channels ? previous[i - channels] : 0;
+                            const prediction = mode === 0 ? 0 : mode === 1 ? a : mode === 2 ? b : mode === 3 ? (a + b) >>> 1 : paeth(a, b, c);
+                            const value = (row[i] - prediction) & 255;
+                            candidate[i] = value; score += Math.min(value, 256 - value);
+                        }
+                        if (score < bestScore) { bestScore = score; best = candidate; filter = mode; }
+                    }
+                    const offset = rowIndex * (stride + 1);
+                    output[offset] = filter; output.set(best, offset + 1); previous = row;
+                }
+                await writer.write(output); self.postMessage({ type: 'stripe' }); return;
+            }
+            if (message.type === 'finish') {
+                await writer.close();
+                const payload = new Uint8Array(await compressed), header = new Uint8Array(13), view = new DataView(header.buffer);
+                view.setUint32(0, width); view.setUint32(4, height); header[8] = 8; header[9] = channels === 3 ? 2 : 6;
+                self.postMessage({ type: 'done', opaque, blob: new Blob([
+                    new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]), chunk('IHDR', header), chunk('IDAT', payload), chunk('IEND', new Uint8Array())
+                ], { type: 'image/png' }) });
+            }
+        } catch (error) { self.postMessage({ type: 'error', message: error.message }); }
+    };
+}
+async function nativeEncode(canvas, mime, quality) {
+    checkCancelled();
+    const blob = await new Promise((resolve, reject) => canvas.toBlob(
+        value => value ? resolve(value) : reject(new Error('图片编码失败，请尝试缩小尺寸')), mime, quality
+    ));
+    checkCancelled();
+    if (blob.type !== mime) throw new Error('当前浏览器不支持此输出格式，请选择 JPEG 或 PNG');
+    return blob;
+}
+async function optimizedPng(canvas, channels = 4) {
+    if (typeof Worker !== 'function' || typeof CompressionStream !== 'function') return { blob: await nativeEncode(canvas, 'image/png'), opaque: null };
+    const url = URL.createObjectURL(new Blob(['(', pngEncoderWorker.toString(), ')()'], { type: 'text/javascript' }));
+    let worker, rejectPending;
+    const cancel = () => { worker?.terminate(); rejectPending?.(new DOMException('已停止处理', CANCELLED)); };
+    try {
+        worker = new Worker(url); state.cancelEncoding = cancel;
+        const send = (message, transfer = []) => new Promise((resolve, reject) => {
+            rejectPending = reject;
+            worker.onmessage = ({ data }) => data.type === 'error' ? reject(new Error(data.message)) : resolve(data);
+            worker.onerror = event => reject(new Error(event.message || 'PNG 优化失败'));
+            worker.postMessage(message, transfer);
+        });
+        await send({ type: 'init', width: canvas.width, height: canvas.height, channels });
+        const context = canvas.getContext('2d');
+        for (let top = 0; top < canvas.height; top += 64) {
+            checkCancelled();
+            const rows = Math.min(64, canvas.height - top);
+            const pixels = context.getImageData(0, top, canvas.width, rows);
+            await send({ type: 'stripe', rows, buffer: pixels.data.buffer }, [pixels.data.buffer]);
+        }
+        const result = await send({ type: 'finish' }); checkCancelled(); return result;
+    } catch (error) {
+        if (error.name === CANCELLED || state.cancel) { checkCancelled(); throw error; }
+        return { blob: await nativeEncode(canvas, 'image/png'), opaque: null };
+    } finally {
+        worker?.terminate(); URL.revokeObjectURL(url);
+        if (state.cancelEncoding === cancel) state.cancelEncoding = null;
+    }
+}
+function detailRegions(width, height) {
+    const scale = Math.min(1, 448 / Math.max(width, height));
+    const regions = [{ x: 0, y: 0, width, height, w: Math.max(1, Math.round(width * scale)), h: Math.max(1, Math.round(height * scale)) }];
+    if (scale < 1) {
+        const w = Math.min(128, width), h = Math.min(128, height);
+        for (const y of [0, .5, 1]) for (const x of [0, .5, 1]) regions.push({ x: Math.round((width - w) * x), y: Math.round((height - h) * y), width: w, height: h, w, h });
+    }
+    return regions;
+}
+function sampleImage(drawable, regions) {
+    const canvas = document.createElement('canvas'), context = canvas.getContext('2d', { willReadFrequently: true });
+    try {
+        return regions.map(region => {
+            canvas.width = region.w; canvas.height = region.h;
+            context.drawImage(drawable, region.x, region.y, region.width, region.height, 0, 0, region.w, region.h);
+            const pixels = context.getImageData(0, 0, region.w, region.h), { data } = pixels;
+            // 在中性底色上评估透明区域的颜色，同时保留 alpha 供透明度误差检查。
+            for (let i = 0; i < data.length; i += 4) for (let c = 0; c < 3; c++) data[i + c] = (data[i + c] * data[i + 3] + 128 * (255 - data[i + 3])) / 255;
+            return pixels;
+        });
+    } finally { canvas.width = canvas.height = 1; }
+}
+function detailMetrics(reference, candidate) {
+    let similarity = 0, blocks = 0, colorError = 0, edgeError = 0, edges = 0, alphaError = 0;
+    const luma = (data, i) => .299 * data[i] + .587 * data[i + 1] + .114 * data[i + 2];
+    const { width, height, data: a } = reference, b = candidate.data;
+    for (let top = 0; top < height; top += 8) for (let left = 0; left < width; left += 8) {
+        let n = 0, sumA = 0, sumB = 0, aa = 0, bb = 0, ab = 0;
+        for (let y = top; y < Math.min(top + 8, height); y++) for (let x = left; x < Math.min(left + 8, width); x++) {
+            const i = (y * width + x) * 4, va = luma(a, i), vb = luma(b, i);
+            n++; sumA += va; sumB += vb; aa += va * va; bb += vb * vb; ab += va * vb;
+            for (let c = 0; c < 3; c++) colorError += (a[i + c] - b[i + c]) ** 2;
+            alphaError = Math.max(alphaError, Math.abs(a[i + 3] - b[i + 3]));
+            if (x > 0 && Math.abs(va - luma(a, i - 4)) > 12) { edgeError += ((va - luma(a, i - 4)) - (vb - luma(b, i - 4))) ** 2; edges++; }
+            if (y > 0 && Math.abs(va - luma(a, i - width * 4)) > 12) { edgeError += ((va - luma(a, i - width * 4)) - (vb - luma(b, i - width * 4))) ** 2; edges++; }
+        }
+        const ma = sumA / n, mb = sumB / n, varianceA = Math.max(0, aa / n - ma * ma), varianceB = Math.max(0, bb / n - mb * mb);
+        similarity += ((2 * ma * mb + 6.5025) * (2 * (ab / n - ma * mb) + 58.5225)) / ((ma * ma + mb * mb + 6.5025) * (varianceA + varianceB + 58.5225));
+        blocks++;
+    }
+    return { similarity: similarity / blocks, colorError: Math.sqrt(colorError / (width * height * 3)), edgeError: Math.sqrt(edgeError / Math.max(1, edges)), alphaError };
+}
+async function measureCandidate(blob, analysis) {
+    const url = URL.createObjectURL(blob); let drawable;
+    try {
+        drawable = await loadDrawable(blob, url); checkCancelled();
+        const samples = sampleImage(drawable, analysis.regions);
+        const metrics = analysis.samples.map((sample, index) => detailMetrics(sample, samples[index]));
+        return {
+            similarity: metrics.reduce((sum, metric) => sum + metric.similarity, 0) / metrics.length,
+            worstSimilarity: Math.min(...metrics.map(metric => metric.similarity)),
+            colorError: Math.max(...metrics.map(metric => metric.colorError)),
+            edgeError: Math.max(...metrics.map(metric => metric.edgeError)),
+            alphaError: Math.max(...metrics.map(metric => metric.alphaError))
+        };
+    } finally { drawable?.close?.(); URL.revokeObjectURL(url); }
+}
+function meetsDetailThreshold(metrics, preset) {
+    return metrics.similarity >= preset.similarity && metrics.worstSimilarity >= preset.worstSimilarity &&
+        metrics.colorError <= preset.colorError && metrics.edgeError <= preset.edgeError && metrics.alphaError <= 1;
+}
+async function prepareEncoding(canvas, requestedMime) {
+    const regions = detailRegions(canvas.width, canvas.height);
+    const analysis = { regions, samples: sampleImage(canvas, regions) };
+    // 先获取无损基线；不透明图片改用 RGB PNG，减少一个通道。
+    let png = null;
+    if (requestedMime === 'image/png') {
+        png = await optimizedPng(canvas);
+        if (png.opaque) {
+            const rgb = await optimizedPng(canvas, 3);
+            if (rgb.blob.size < png.blob.size) png.blob = rgb.blob;
+        }
+        const native = await nativeEncode(canvas, 'image/png');
+        if (native.size < png.blob.size) png.blob = native;
+    }
+    analysis.opaque = png?.opaque;
+    const formats = requestedMime === 'image/png' ? [] : [requestedMime];
+    const cache = new Map();
+    return {
+        png: png ? { blob: png.blob, quality: 1, metrics: { similarity: 1, worstSimilarity: 1, colorError: 0, edgeError: 0, alphaError: 0 } } : null,
+        formats, analysis,
+        async candidate(mime, quality, measure = true) {
+            const key = mime + ':' + quality.toFixed(4);
+            if (!cache.has(key)) cache.set(key, { blob: await nativeEncode(canvas, mime, quality), quality });
+            const result = cache.get(key);
+            if (measure && !result.metrics) result.metrics = await measureCandidate(result.blob, analysis);
+            while (cache.size > 3) cache.delete(cache.keys().next().value);
+            return result;
+        },
+        clear() { cache.clear(); }
+    };
+}
+async function encodeAdaptive(session, settings) {
+    const preset = COMPRESSION_LEVELS[settings.compressionLevel];
+    let best = settings.mime === 'image/png' ? session.png : null;
+    for (const mime of session.formats) {
+        const highCandidate = await session.candidate(mime, 1);
+        if (!best || (meetsDetailThreshold(highCandidate.metrics, preset) && highCandidate.blob.size < best.blob.size)) best = highCandidate;
+        if (!meetsDetailThreshold(highCandidate.metrics, preset)) continue;
+        let low = preset.minQuality, high = 1;
+        const lowCandidate = await session.candidate(mime, low);
+        if (meetsDetailThreshold(lowCandidate.metrics, preset)) {
+            if (lowCandidate.blob.size < best.blob.size) best = lowCandidate;
+            continue;
+        }
+        for (let attempt = 0; attempt < 5; attempt++) {
+            checkCancelled();
+            const quality = (low + high) / 2, candidate = await session.candidate(mime, quality);
+            if (meetsDetailThreshold(candidate.metrics, preset)) {
+                high = quality;
+                if (candidate.blob.size < best.blob.size) best = candidate;
+            } else low = quality;
         }
     }
-    const reduced = document.createElement('canvas'); reduced.width = canvas.width; reduced.height = canvas.height;
-    reduced.getContext('2d').putImageData(pixels, 0, 0);
-    return reduced;
+    if (!best) throw new Error('当前浏览器没有可用的输出编码器');
+    return best;
 }
-async function encodeCanvas(canvas, mime, quality) {
-    checkCancelled();
-    let reduced;
-    try {
-        if (mime === 'image/png' && quality < 1) reduced = await reducePngColors(canvas, quality);
-        const source = reduced || canvas;
-        const blob = await new Promise((resolve, reject) => source.toBlob(value => value ? resolve(value) : reject(new Error('图片编码失败，请尝试缩小尺寸')), mime, quality));
-        checkCancelled();
-        if (blob.type !== mime) throw new Error('当前浏览器不支持此输出格式，请选择 JPEG 或 PNG');
-        return blob;
-    } finally { if (reduced) reduced.width = reduced.height = 1; }
+async function encodeWithinBudget(session, settings, floor) {
+    const budget = settings.targetBytes, candidates = [], samples = [];
+    if (settings.mime === 'image/png') {
+        samples.push(session.png);
+        if (session.png.blob.size <= budget) candidates.push(session.png);
+    }
+    for (const mime of session.formats) {
+        const smallest = await session.candidate(mime, floor, false);
+        samples.push(smallest);
+        if (smallest.blob.size > budget) continue;
+        let best = smallest, low = floor, high = .98;
+        const full = await session.candidate(mime, high, false);
+        if (full.blob.size <= budget) best = full;
+        else for (let attempt = 0; attempt < 7; attempt++) {
+            const quality = (low + high) / 2, candidate = await session.candidate(mime, quality, false);
+            if (candidate.blob.size <= budget) { best = candidate; low = quality; } else high = quality;
+        }
+        if (!best.metrics) best.metrics = await measureCandidate(best.blob, session.analysis);
+        candidates.push(best);
+    }
+    // 比较不同格式的实际细节，不能用编码器的 quality 数字直接比较画质。
+    candidates.sort((a, b) => {
+        const score = item => item.metrics.similarity + item.metrics.worstSimilarity * .25 - item.metrics.colorError / 255 - item.metrics.edgeError / 510;
+        return score(b) - score(a) || a.blob.size - b.blob.size;
+    });
+    samples.sort((a, b) => a.blob.size - b.blob.size);
+    if (!samples.length) throw new Error('当前浏览器没有可用的输出编码器');
+    return { candidate: candidates[0] || samples[0], fits: candidates.length > 0 };
 }
 async function canReuseOriginal(item, geometry, settings) {
     if (item.file.type !== settings.mime || geometry.width !== item.width || geometry.height !== item.height || geometry.cropWidth !== item.width || geometry.cropHeight !== item.height) return false;
@@ -684,39 +1018,91 @@ async function canReuseOriginal(item, geometry, settings) {
     }
     return false;
 }
+function originalExtension(item) {
+    return MIME_EXT[item.file.type] || item.file.name.split('.').pop().toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 10) || 'img';
+}
+function resultFilename(item, extension, used) {
+    const base = (item.file.name.replace(/\.[^.]+$/, '').replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_').replace(/[. ]+$/, '').slice(0, 90) || 'image') + '_processed';
+    let name = base + '.' + extension, suffix = 2;
+    while (used.has(name.toLowerCase())) name = base + '_' + suffix++ + '.' + extension;
+    used.add(name.toLowerCase()); return name;
+}
 async function processImage(item, settings) {
+    const geometry = imageGeometry(item.width, item.height, settings);
+    const lossless = settings.compressionLevel === 'lossless', custom = settings.compressionLevel === 'custom';
+    const untouched = geometry.width === item.width && geometry.height === item.height && geometry.cropWidth === item.width && geometry.cropHeight === item.height;
+    const makeResult = (candidate, width, height, reusedOriginal = false) => ({
+        blob: candidate.blob, width, height, geometry, compressionLevel: settings.compressionLevel,
+        extension: reusedOriginal ? originalExtension(item) : MIME_EXT[candidate.blob.type],
+        quality: candidate.quality ?? 1, metrics: candidate.metrics || null,
+        reusedOriginal, limited: geometry.limited, targetBytes: custom ? settings.targetBytes : null,
+        targetMet: custom ? candidate.blob.size <= settings.targetBytes : null
+    });
+    // 真正“不压缩”：无需画布、重编码或安全缩小，连同原文件元数据一起保留。
+    if (lossless && untouched) return makeResult({ blob: item.file }, item.width, item.height, true);
+    if (custom && untouched && item.file.size <= settings.targetBytes &&
+        settings.mime === item.file.type &&
+        await canReuseOriginal(item, geometry, { mime: item.file.type })) return makeResult({ blob: item.file }, item.width, item.height, true);
     const drawable = await loadDrawable(item.file, item.sourceUrl);
     try {
         checkCancelled();
-        const geometry = imageGeometry(item.width, item.height, settings);
-        const { width, height } = geometry;
-        const preset = COMPRESSION_LEVELS[settings.compressionLevel];
-        const quality = settings.mime === 'image/png' ? preset.pngQuality : preset.quality;
-        const canvas = drawImageCanvas(drawable, geometry, width, height, settings);
-        let blob;
-        try { blob = await encodeCanvas(canvas, settings.mime, quality); }
-        finally { canvas.width = canvas.height = 1; }
-        const reusedOriginal = item.file.size <= blob.size && await canReuseOriginal(item, geometry, settings);
-        if (reusedOriginal) blob = item.file;
-        return { blob, width, height, geometry, compressionLevel: settings.compressionLevel, reusedOriginal, limited: geometry.limited };
+        if (lossless) {
+            const canvas = drawImageCanvas(drawable, geometry, geometry.width, geometry.height, { ...settings, mime: 'image/png' });
+            try { return makeResult({ blob: await nativeEncode(canvas, 'image/png') }, geometry.width, geometry.height); }
+            finally { canvas.width = canvas.height = 1; }
+        }
+        async function encodeAt(width, height) {
+            checkCancelled();
+            const canvas = drawImageCanvas(drawable, geometry, width, height, settings);
+            let session;
+            try {
+                session = await prepareEncoding(canvas, settings.mime);
+                if (!custom) return { candidate: await encodeAdaptive(session, settings), fits: true, width, height };
+                let result = await encodeWithinBudget(session, settings, .70);
+                if (!result.fits && !settings.allowShrink) result = await encodeWithinBudget(session, settings, .08);
+                return { ...result, width, height };
+            } finally { session?.clear(); canvas.width = canvas.height = 1; }
+        }
+        let width = geometry.width, height = geometry.height;
+        let outcome = await encodeAt(width, height);
+        if (custom && !outcome.fits && settings.allowShrink) {
+            let lastFailedScale = 1, passedScale = 0, best = null;
+            for (let attempt = 0; attempt < 20 && !outcome.fits && (width > 1 || height > 1); attempt++) {
+                const scale = Math.min(width / geometry.width, height / geometry.height);
+                lastFailedScale = scale;
+                const shrink = Math.max(.1, Math.min(.85, Math.sqrt(settings.targetBytes / outcome.candidate.blob.size) * .94));
+                const nextScale = scale * shrink;
+                width = Math.max(1, Math.floor(geometry.width * nextScale)); height = Math.max(1, Math.floor(geometry.height * nextScale));
+                outcome = await encodeAt(width, height);
+                if (outcome.fits) { best = outcome; passedScale = nextScale; }
+            }
+            // 找到达标尺寸后向上细化，减少一次缩小过多造成的细节损失。
+            if (best) {
+                for (let attempt = 0; attempt < 4; attempt++) {
+                    const scale = (passedScale + lastFailedScale) / 2;
+                    width = Math.max(1, Math.floor(geometry.width * scale)); height = Math.max(1, Math.floor(geometry.height * scale));
+                    if (width === best.width && height === best.height) break;
+                    const refined = await encodeAt(width, height);
+                    if (refined.fits) { best = refined; passedScale = scale; } else lastFailedScale = scale;
+                }
+                outcome = best;
+            }
+        }
+        const candidate = outcome.candidate;
+        const reuseGeometry = { ...geometry, width: outcome.width, height: outcome.height };
+        const reuse = item.file.size <= candidate.blob.size && (!custom || item.file.size <= settings.targetBytes) &&
+            await canReuseOriginal(item, reuseGeometry, { mime: candidate.blob.type });
+        if (reuse) return makeResult({ blob: item.file }, outcome.width, outcome.height, true);
+        return makeResult(candidate, outcome.width, outcome.height);
     } finally { drawable.close?.(); }
-}
-function outputNames(settings) {
-    const used = new Set();
-    return state.items.map(item => {
-        const base = (item.file.name.replace(/\.[^.]+$/, '').replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_').replace(/[. ]+$/, '').slice(0, 90) || 'image') + '_processed';
-        const extension = MIME_EXT[settings.mime]; let name = `${base}.${extension}`, suffix = 2;
-        while (used.has(name.toLowerCase())) name = `${base}_${suffix++}.${extension}`;
-        used.add(name.toLowerCase()); return name;
-    });
 }
 async function processAll() {
     if (state.busy || !state.items.length || !$('settingsForm').reportValidity()) return;
-    const settings = readSettings(), filenames = outputNames(settings), revision = state.revision;
+    const settings = readSettings(), usedNames = new Set(), revision = state.revision;
     state.busy = 'processing'; state.cancel = false; updateControls();
     $('progress').hidden = false; $('progress').max = state.items.length; $('progress').value = 0;
     state.items.forEach(item => { disposeResult(item); item.error = ''; updateCard(item); });
-    let finished = 0, failures = 0;
+    let finished = 0, failures = 0, overBudget = 0;
     try {
         for (let index = 0; index < state.items.length; index++) {
             checkCancelled();
@@ -725,15 +1111,16 @@ async function processAll() {
             await new Promise(resolve => setTimeout(resolve, 0));
             try {
                 const result = await processImage(item, settings); checkCancelled();
-                item.result = { ...result, url: URL.createObjectURL(result.blob), filename: filenames[index], revision };
+                item.result = { ...result, url: URL.createObjectURL(result.blob), filename: resultFilename(item, result.extension, usedNames), revision };
                 finished++;
+                if (result.targetMet === false) overBudget++;
             } catch (error) {
                 if (error.name === CANCELLED) throw error;
                 item.error = error.message || '处理失败，请尝试其他格式或更小尺寸'; failures++;
             } finally { item.processing = false; updateCard(item); }
             $('progress').value = index + 1; updateSummary();
         }
-        status(`处理完成：${finished} 张成功${failures ? `，${failures} 张失败` : ''} · ${COMPRESSION_LEVELS[settings.compressionLevel].label}压缩。点击任一图片可放大对比，也可单张下载或下载 ZIP。`, failures > 0);
+        status(`处理完成：${finished} 张成功${failures ? `，${failures} 张失败` : ''} · ${COMPRESSION_LEVELS[settings.compressionLevel].label}${overBudget ? `；${overBudget} 张未达到大小上限，请查看图片提示` : ''}。点击图片可放大对比，也可下载。`, failures > 0 || overBudget > 0);
     } catch (error) {
         status(error.name === CANCELLED ? `已停止，保留 ${finished} 张处理结果，可下载或重新处理。` : `处理出错：${error.message}`, error.name !== CANCELLED);
     } finally { state.busy = ''; state.cancel = false; updateSummary(); }
@@ -812,7 +1199,7 @@ $('chooseFiles').addEventListener('click', () => $('fileInput').click());
 $('fileInput').addEventListener('change', event => addFiles(event.target.files));
 $('processAll').addEventListener('click', processAll);
 $('downloadAll').addEventListener('click', downloadAll);
-$('stopProcessing').addEventListener('click', () => { state.cancel = true; updateControls(); status('正在停止，已完成的结果会保留…'); });
+$('stopProcessing').addEventListener('click', () => { state.cancel = true; state.cancelEncoding?.(); updateControls(); status('正在停止，已完成的结果会保留…'); });
 $('clearAll').addEventListener('click', () => {
     if (state.busy) return;
     closeViewer();
